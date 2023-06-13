@@ -13,6 +13,7 @@ package merge_crm_client
 
 import (
 	"encoding/json"
+	"time"
 )
 
 // PhoneNumber # The PhoneNumber Object ### Description The `PhoneNumber` object is used to represent an entity's phone number. ### Usage Example Fetch from the `GET Contact` endpoint and view their phone numbers.
@@ -21,8 +22,10 @@ type PhoneNumber struct {
 	PhoneNumber NullableString `json:"phone_number,omitempty"`
 	// The phone number's type.
 	PhoneNumberType NullableString `json:"phone_number_type,omitempty"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	// This is the datetime that this object was last updated by Merge
+	ModifiedAt *time.Time `json:"modified_at,omitempty"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewPhoneNumber instantiates a new PhoneNumber object
@@ -126,6 +129,38 @@ func (o *PhoneNumber) UnsetPhoneNumberType() {
 	o.PhoneNumberType.Unset()
 }
 
+// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise.
+func (o *PhoneNumber) GetModifiedAt() time.Time {
+	if o == nil || o.ModifiedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.ModifiedAt
+}
+
+// GetModifiedAtOk returns a tuple with the ModifiedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PhoneNumber) GetModifiedAtOk() (*time.Time, bool) {
+	if o == nil || o.ModifiedAt == nil {
+		return nil, false
+	}
+	return o.ModifiedAt, true
+}
+
+// HasModifiedAt returns a boolean if a field has been set.
+func (o *PhoneNumber) HasModifiedAt() bool {
+	if o != nil && o.ModifiedAt != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetModifiedAt gets a reference to the given time.Time and assigns it to the ModifiedAt field.
+func (o *PhoneNumber) SetModifiedAt(v time.Time) {
+	o.ModifiedAt = &v
+}
+
 func (o PhoneNumber) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.PhoneNumber.IsSet() {
@@ -133,6 +168,9 @@ func (o PhoneNumber) MarshalJSON() ([]byte, error) {
 	}
 	if o.PhoneNumberType.IsSet() {
 		toSerialize["phone_number_type"] = o.PhoneNumberType.Get()
+	}
+	if o.ModifiedAt != nil {
+		toSerialize["modified_at"] = o.ModifiedAt
 	}
 	return json.Marshal(toSerialize)
 }

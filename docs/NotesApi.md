@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**NotesCreate**](NotesApi.md#NotesCreate) | **Post** /notes | 
 [**NotesList**](NotesApi.md#NotesList) | **Get** /notes | 
 [**NotesMetaPostRetrieve**](NotesApi.md#NotesMetaPostRetrieve) | **Get** /notes/meta/post | 
+[**NotesRemoteFieldClassesList**](NotesApi.md#NotesRemoteFieldClassesList) | **Get** /notes/remote-field-classes | 
 [**NotesRetrieve**](NotesApi.md#NotesRetrieve) | **Get** /notes/{id} | 
 
 
@@ -85,7 +86,7 @@ Name | Type | Description  | Notes
 
 ## NotesList
 
-> PaginatedNoteList NotesList(ctx).XAccountToken(xAccountToken).AccountId(accountId).ContactId(contactId).CreatedAfter(createdAfter).CreatedBefore(createdBefore).Cursor(cursor).IncludeDeletedData(includeDeletedData).IncludeRemoteData(includeRemoteData).ModifiedAfter(modifiedAfter).ModifiedBefore(modifiedBefore).OpportunityId(opportunityId).OwnerId(ownerId).PageSize(pageSize).RemoteId(remoteId).Execute()
+> PaginatedNoteList NotesList(ctx).XAccountToken(xAccountToken).AccountId(accountId).ContactId(contactId).CreatedAfter(createdAfter).CreatedBefore(createdBefore).Cursor(cursor).IncludeDeletedData(includeDeletedData).IncludeRemoteData(includeRemoteData).IncludeRemoteFields(includeRemoteFields).ModifiedAfter(modifiedAfter).ModifiedBefore(modifiedBefore).OpportunityId(opportunityId).OwnerId(ownerId).PageSize(pageSize).RemoteId(remoteId).Execute()
 
 
 
@@ -113,8 +114,9 @@ func main() {
     cursor := "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw" // string | The pagination cursor value. (optional)
     includeDeletedData := true // bool | Whether to include data that was marked as deleted by third party webhooks. (optional)
     includeRemoteData := true // bool | Whether to include the original data Merge fetched from the third-party to produce these models. (optional)
-    modifiedAfter := time.Now() // time.Time | If provided, will only return objects modified after this datetime. (optional)
-    modifiedBefore := time.Now() // time.Time | If provided, will only return objects modified before this datetime. (optional)
+    includeRemoteFields := true // bool | Whether to include all remote fields, including fields that Merge did not map to common models, in a normalized format. (optional)
+    modifiedAfter := time.Now() // time.Time | If provided, only objects synced by Merge after this date time will be returned. (optional)
+    modifiedBefore := time.Now() // time.Time | If provided, only objects synced by Merge before this date time will be returned. (optional)
     opportunityId := "opportunityId_example" // string | If provided, will only return notes with this opportunity. (optional)
     ownerId := "ownerId_example" // string | If provided, will only return notes with this owner. (optional)
     pageSize := int32(56) // int32 | Number of results to return per page. (optional)
@@ -122,7 +124,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.NotesApi.NotesList(context.Background()).XAccountToken(xAccountToken).AccountId(accountId).ContactId(contactId).CreatedAfter(createdAfter).CreatedBefore(createdBefore).Cursor(cursor).IncludeDeletedData(includeDeletedData).IncludeRemoteData(includeRemoteData).ModifiedAfter(modifiedAfter).ModifiedBefore(modifiedBefore).OpportunityId(opportunityId).OwnerId(ownerId).PageSize(pageSize).RemoteId(remoteId).Execute()
+    resp, r, err := api_client.NotesApi.NotesList(context.Background()).XAccountToken(xAccountToken).AccountId(accountId).ContactId(contactId).CreatedAfter(createdAfter).CreatedBefore(createdBefore).Cursor(cursor).IncludeDeletedData(includeDeletedData).IncludeRemoteData(includeRemoteData).IncludeRemoteFields(includeRemoteFields).ModifiedAfter(modifiedAfter).ModifiedBefore(modifiedBefore).OpportunityId(opportunityId).OwnerId(ownerId).PageSize(pageSize).RemoteId(remoteId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `NotesApi.NotesList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -151,8 +153,9 @@ Name | Type | Description  | Notes
  **cursor** | **string** | The pagination cursor value. | 
  **includeDeletedData** | **bool** | Whether to include data that was marked as deleted by third party webhooks. | 
  **includeRemoteData** | **bool** | Whether to include the original data Merge fetched from the third-party to produce these models. | 
- **modifiedAfter** | **time.Time** | If provided, will only return objects modified after this datetime. | 
- **modifiedBefore** | **time.Time** | If provided, will only return objects modified before this datetime. | 
+ **includeRemoteFields** | **bool** | Whether to include all remote fields, including fields that Merge did not map to common models, in a normalized format. | 
+ **modifiedAfter** | **time.Time** | If provided, only objects synced by Merge after this date time will be returned. | 
+ **modifiedBefore** | **time.Time** | If provided, only objects synced by Merge before this date time will be returned. | 
  **opportunityId** | **string** | If provided, will only return notes with this opportunity. | 
  **ownerId** | **string** | If provided, will only return notes with this owner. | 
  **pageSize** | **int32** | Number of results to return per page. | 
@@ -242,9 +245,85 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## NotesRemoteFieldClassesList
+
+> PaginatedRemoteFieldClassList NotesRemoteFieldClassesList(ctx).XAccountToken(xAccountToken).Cursor(cursor).IncludeDeletedData(includeDeletedData).IncludeRemoteData(includeRemoteData).IncludeRemoteFields(includeRemoteFields).PageSize(pageSize).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    xAccountToken := "xAccountToken_example" // string | Token identifying the end user.
+    cursor := "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw" // string | The pagination cursor value. (optional)
+    includeDeletedData := true // bool | Whether to include data that was marked as deleted by third party webhooks. (optional)
+    includeRemoteData := true // bool | Whether to include the original data Merge fetched from the third-party to produce these models. (optional)
+    includeRemoteFields := true // bool | Whether to include all remote fields, including fields that Merge did not map to common models, in a normalized format. (optional)
+    pageSize := int32(56) // int32 | Number of results to return per page. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.NotesApi.NotesRemoteFieldClassesList(context.Background()).XAccountToken(xAccountToken).Cursor(cursor).IncludeDeletedData(includeDeletedData).IncludeRemoteData(includeRemoteData).IncludeRemoteFields(includeRemoteFields).PageSize(pageSize).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotesApi.NotesRemoteFieldClassesList``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `NotesRemoteFieldClassesList`: PaginatedRemoteFieldClassList
+    fmt.Fprintf(os.Stdout, "Response from `NotesApi.NotesRemoteFieldClassesList`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiNotesRemoteFieldClassesListRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xAccountToken** | **string** | Token identifying the end user. | 
+ **cursor** | **string** | The pagination cursor value. | 
+ **includeDeletedData** | **bool** | Whether to include data that was marked as deleted by third party webhooks. | 
+ **includeRemoteData** | **bool** | Whether to include the original data Merge fetched from the third-party to produce these models. | 
+ **includeRemoteFields** | **bool** | Whether to include all remote fields, including fields that Merge did not map to common models, in a normalized format. | 
+ **pageSize** | **int32** | Number of results to return per page. | 
+
+### Return type
+
+[**PaginatedRemoteFieldClassList**](PaginatedRemoteFieldClassList.md)
+
+### Authorization
+
+[tokenAuth](../README.md#tokenAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## NotesRetrieve
 
-> Note NotesRetrieve(ctx, id).XAccountToken(xAccountToken).IncludeRemoteData(includeRemoteData).Execute()
+> Note NotesRetrieve(ctx, id).XAccountToken(xAccountToken).IncludeRemoteData(includeRemoteData).IncludeRemoteFields(includeRemoteFields).Execute()
 
 
 
@@ -266,10 +345,11 @@ func main() {
     xAccountToken := "xAccountToken_example" // string | Token identifying the end user.
     id := TODO // string | 
     includeRemoteData := true // bool | Whether to include the original data Merge fetched from the third-party to produce these models. (optional)
+    includeRemoteFields := true // bool | Whether to include all remote fields, including fields that Merge did not map to common models, in a normalized format. (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.NotesApi.NotesRetrieve(context.Background(), id).XAccountToken(xAccountToken).IncludeRemoteData(includeRemoteData).Execute()
+    resp, r, err := api_client.NotesApi.NotesRetrieve(context.Background(), id).XAccountToken(xAccountToken).IncludeRemoteData(includeRemoteData).IncludeRemoteFields(includeRemoteFields).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `NotesApi.NotesRetrieve``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -297,6 +377,7 @@ Name | Type | Description  | Notes
  **xAccountToken** | **string** | Token identifying the end user. | 
 
  **includeRemoteData** | **bool** | Whether to include the original data Merge fetched from the third-party to produce these models. | 
+ **includeRemoteFields** | **bool** | Whether to include all remote fields, including fields that Merge did not map to common models, in a normalized format. | 
 
 ### Return type
 

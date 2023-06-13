@@ -4,18 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
-**Owner** | Pointer to **NullableString** |  | [optional] 
+**Owner** | Pointer to **NullableString** | The account&#39;s owner. | [optional] 
 **Name** | Pointer to **NullableString** | The account&#39;s name. | [optional] 
 **Description** | Pointer to **NullableString** | The account&#39;s description. | [optional] 
 **Industry** | Pointer to **NullableString** | The account&#39;s industry. | [optional] 
 **Website** | Pointer to **NullableString** | The account&#39;s website. | [optional] 
 **NumberOfEmployees** | Pointer to **NullableInt32** | The account&#39;s number of employees. | [optional] 
-**LastActivityAt** | Pointer to **NullableTime** | When the account&#39;s last activity  occurred. | [optional] 
-**RemoteUpdatedAt** | Pointer to **NullableTime** | When the third party&#39;s account was updated. | [optional] 
-**RemoteCreatedAt** | Pointer to **NullableTime** | When the third party&#39;s account was created. | [optional] 
+**LastActivityAt** | Pointer to **NullableTime** | The last date (either most recent or furthest in the future) of when an activity occurs in an account. | [optional] 
 **IntegrationParams** | Pointer to **map[string]interface{}** |  | [optional] 
 **LinkedAccountParams** | Pointer to **map[string]interface{}** |  | [optional] 
+**RemoteFields** | Pointer to [**[]RemoteFieldRequest**](RemoteFieldRequest.md) |  | [optional] 
 
 ## Methods
 
@@ -36,41 +34,6 @@ NewAccountRequestWithDefaults instantiates a new AccountRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetRemoteId
-
-`func (o *AccountRequest) GetRemoteId() string`
-
-GetRemoteId returns the RemoteId field if non-nil, zero value otherwise.
-
-### GetRemoteIdOk
-
-`func (o *AccountRequest) GetRemoteIdOk() (*string, bool)`
-
-GetRemoteIdOk returns a tuple with the RemoteId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteId
-
-`func (o *AccountRequest) SetRemoteId(v string)`
-
-SetRemoteId sets RemoteId field to given value.
-
-### HasRemoteId
-
-`func (o *AccountRequest) HasRemoteId() bool`
-
-HasRemoteId returns a boolean if a field has been set.
-
-### SetRemoteIdNil
-
-`func (o *AccountRequest) SetRemoteIdNil(b bool)`
-
- SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-
-### UnsetRemoteId
-`func (o *AccountRequest) UnsetRemoteId()`
-
-UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
 ### GetOwner
 
 `func (o *AccountRequest) GetOwner() string`
@@ -316,76 +279,6 @@ HasLastActivityAt returns a boolean if a field has been set.
 `func (o *AccountRequest) UnsetLastActivityAt()`
 
 UnsetLastActivityAt ensures that no value is present for LastActivityAt, not even an explicit nil
-### GetRemoteUpdatedAt
-
-`func (o *AccountRequest) GetRemoteUpdatedAt() time.Time`
-
-GetRemoteUpdatedAt returns the RemoteUpdatedAt field if non-nil, zero value otherwise.
-
-### GetRemoteUpdatedAtOk
-
-`func (o *AccountRequest) GetRemoteUpdatedAtOk() (*time.Time, bool)`
-
-GetRemoteUpdatedAtOk returns a tuple with the RemoteUpdatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteUpdatedAt
-
-`func (o *AccountRequest) SetRemoteUpdatedAt(v time.Time)`
-
-SetRemoteUpdatedAt sets RemoteUpdatedAt field to given value.
-
-### HasRemoteUpdatedAt
-
-`func (o *AccountRequest) HasRemoteUpdatedAt() bool`
-
-HasRemoteUpdatedAt returns a boolean if a field has been set.
-
-### SetRemoteUpdatedAtNil
-
-`func (o *AccountRequest) SetRemoteUpdatedAtNil(b bool)`
-
- SetRemoteUpdatedAtNil sets the value for RemoteUpdatedAt to be an explicit nil
-
-### UnsetRemoteUpdatedAt
-`func (o *AccountRequest) UnsetRemoteUpdatedAt()`
-
-UnsetRemoteUpdatedAt ensures that no value is present for RemoteUpdatedAt, not even an explicit nil
-### GetRemoteCreatedAt
-
-`func (o *AccountRequest) GetRemoteCreatedAt() time.Time`
-
-GetRemoteCreatedAt returns the RemoteCreatedAt field if non-nil, zero value otherwise.
-
-### GetRemoteCreatedAtOk
-
-`func (o *AccountRequest) GetRemoteCreatedAtOk() (*time.Time, bool)`
-
-GetRemoteCreatedAtOk returns a tuple with the RemoteCreatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteCreatedAt
-
-`func (o *AccountRequest) SetRemoteCreatedAt(v time.Time)`
-
-SetRemoteCreatedAt sets RemoteCreatedAt field to given value.
-
-### HasRemoteCreatedAt
-
-`func (o *AccountRequest) HasRemoteCreatedAt() bool`
-
-HasRemoteCreatedAt returns a boolean if a field has been set.
-
-### SetRemoteCreatedAtNil
-
-`func (o *AccountRequest) SetRemoteCreatedAtNil(b bool)`
-
- SetRemoteCreatedAtNil sets the value for RemoteCreatedAt to be an explicit nil
-
-### UnsetRemoteCreatedAt
-`func (o *AccountRequest) UnsetRemoteCreatedAt()`
-
-UnsetRemoteCreatedAt ensures that no value is present for RemoteCreatedAt, not even an explicit nil
 ### GetIntegrationParams
 
 `func (o *AccountRequest) GetIntegrationParams() map[string]interface{}`
@@ -456,6 +349,31 @@ HasLinkedAccountParams returns a boolean if a field has been set.
 `func (o *AccountRequest) UnsetLinkedAccountParams()`
 
 UnsetLinkedAccountParams ensures that no value is present for LinkedAccountParams, not even an explicit nil
+### GetRemoteFields
+
+`func (o *AccountRequest) GetRemoteFields() []RemoteFieldRequest`
+
+GetRemoteFields returns the RemoteFields field if non-nil, zero value otherwise.
+
+### GetRemoteFieldsOk
+
+`func (o *AccountRequest) GetRemoteFieldsOk() (*[]RemoteFieldRequest, bool)`
+
+GetRemoteFieldsOk returns a tuple with the RemoteFields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteFields
+
+`func (o *AccountRequest) SetRemoteFields(v []RemoteFieldRequest)`
+
+SetRemoteFields sets RemoteFields field to given value.
+
+### HasRemoteFields
+
+`func (o *AccountRequest) HasRemoteFields() bool`
+
+HasRemoteFields returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

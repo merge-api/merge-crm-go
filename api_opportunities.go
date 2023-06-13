@@ -190,12 +190,14 @@ type ApiOpportunitiesListRequest struct {
 	cursor *string
 	includeDeletedData *bool
 	includeRemoteData *bool
+	includeRemoteFields *bool
 	modifiedAfter *time.Time
 	modifiedBefore *time.Time
 	ownerId *string
 	pageSize *int32
 	remoteFields *string
 	remoteId *string
+	showEnumOrigins *string
 	stageId *string
 	status *string
 }
@@ -228,6 +230,10 @@ func (r ApiOpportunitiesListRequest) IncludeRemoteData(includeRemoteData bool) A
 	r.includeRemoteData = &includeRemoteData
 	return r
 }
+func (r ApiOpportunitiesListRequest) IncludeRemoteFields(includeRemoteFields bool) ApiOpportunitiesListRequest {
+	r.includeRemoteFields = &includeRemoteFields
+	return r
+}
 func (r ApiOpportunitiesListRequest) ModifiedAfter(modifiedAfter time.Time) ApiOpportunitiesListRequest {
 	r.modifiedAfter = &modifiedAfter
 	return r
@@ -250,6 +256,10 @@ func (r ApiOpportunitiesListRequest) RemoteFields(remoteFields string) ApiOpport
 }
 func (r ApiOpportunitiesListRequest) RemoteId(remoteId string) ApiOpportunitiesListRequest {
 	r.remoteId = &remoteId
+	return r
+}
+func (r ApiOpportunitiesListRequest) ShowEnumOrigins(showEnumOrigins string) ApiOpportunitiesListRequest {
+	r.showEnumOrigins = &showEnumOrigins
 	return r
 }
 func (r ApiOpportunitiesListRequest) StageId(stageId string) ApiOpportunitiesListRequest {
@@ -324,6 +334,9 @@ func (a *OpportunitiesApiService) OpportunitiesListExecute(r ApiOpportunitiesLis
 	if r.includeRemoteData != nil {
 		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
 	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
+	}
 	if r.modifiedAfter != nil {
 		localVarQueryParams.Add("modified_after", parameterToString(*r.modifiedAfter, ""))
 	}
@@ -342,12 +355,144 @@ func (a *OpportunitiesApiService) OpportunitiesListExecute(r ApiOpportunitiesLis
 	if r.remoteId != nil {
 		localVarQueryParams.Add("remote_id", parameterToString(*r.remoteId, ""))
 	}
+	if r.showEnumOrigins != nil {
+		localVarQueryParams.Add("show_enum_origins", parameterToString(*r.showEnumOrigins, ""))
+	}
 	if r.stageId != nil {
 		localVarQueryParams.Add("stage_id", parameterToString(*r.stageId, ""))
 	}
 	if r.status != nil {
 		localVarQueryParams.Add("status", parameterToString(*r.status, ""))
 	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Account-Token"] = parameterToString(*r.xAccountToken, "")
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["tokenAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiOpportunitiesMetaPatchRetrieveRequest struct {
+	ctx _context.Context
+	ApiService *OpportunitiesApiService
+	xAccountToken *string
+	id string
+}
+
+func (r ApiOpportunitiesMetaPatchRetrieveRequest) XAccountToken(xAccountToken string) ApiOpportunitiesMetaPatchRetrieveRequest {
+	r.xAccountToken = &xAccountToken
+	return r
+}
+
+func (r ApiOpportunitiesMetaPatchRetrieveRequest) Execute() (MetaResponse, *_nethttp.Response, error) {
+	return r.ApiService.OpportunitiesMetaPatchRetrieveExecute(r)
+}
+
+/*
+ * OpportunitiesMetaPatchRetrieve Method for OpportunitiesMetaPatchRetrieve
+ * Returns metadata for `Opportunity` PATCHs.
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id
+ * @return ApiOpportunitiesMetaPatchRetrieveRequest
+ */
+func (a *OpportunitiesApiService) OpportunitiesMetaPatchRetrieve(ctx _context.Context, id string) ApiOpportunitiesMetaPatchRetrieveRequest {
+	return ApiOpportunitiesMetaPatchRetrieveRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return MetaResponse
+ */
+func (a *OpportunitiesApiService) OpportunitiesMetaPatchRetrieveExecute(r ApiOpportunitiesMetaPatchRetrieveRequest) (MetaResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  MetaResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OpportunitiesApiService.OpportunitiesMetaPatchRetrieve")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/opportunities/meta/patch/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.xAccountToken == nil {
+		return localVarReturnValue, nil, reportError("xAccountToken is required and must be specified")
+	}
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -542,13 +687,335 @@ func (a *OpportunitiesApiService) OpportunitiesMetaPostRetrieveExecute(r ApiOppo
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiOpportunitiesPartialUpdateRequest struct {
+	ctx _context.Context
+	ApiService *OpportunitiesApiService
+	xAccountToken *string
+	id string
+	patchedOpportunityEndpointRequest *PatchedOpportunityEndpointRequest
+	isDebugMode *bool
+	runAsync *bool
+}
+
+func (r ApiOpportunitiesPartialUpdateRequest) XAccountToken(xAccountToken string) ApiOpportunitiesPartialUpdateRequest {
+	r.xAccountToken = &xAccountToken
+	return r
+}
+func (r ApiOpportunitiesPartialUpdateRequest) PatchedOpportunityEndpointRequest(patchedOpportunityEndpointRequest PatchedOpportunityEndpointRequest) ApiOpportunitiesPartialUpdateRequest {
+	r.patchedOpportunityEndpointRequest = &patchedOpportunityEndpointRequest
+	return r
+}
+func (r ApiOpportunitiesPartialUpdateRequest) IsDebugMode(isDebugMode bool) ApiOpportunitiesPartialUpdateRequest {
+	r.isDebugMode = &isDebugMode
+	return r
+}
+func (r ApiOpportunitiesPartialUpdateRequest) RunAsync(runAsync bool) ApiOpportunitiesPartialUpdateRequest {
+	r.runAsync = &runAsync
+	return r
+}
+
+func (r ApiOpportunitiesPartialUpdateRequest) Execute() (OpportunityResponse, *_nethttp.Response, error) {
+	return r.ApiService.OpportunitiesPartialUpdateExecute(r)
+}
+
+/*
+ * OpportunitiesPartialUpdate Method for OpportunitiesPartialUpdate
+ * Updates an `Opportunity` object with the given `id`.
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id
+ * @return ApiOpportunitiesPartialUpdateRequest
+ */
+func (a *OpportunitiesApiService) OpportunitiesPartialUpdate(ctx _context.Context, id string) ApiOpportunitiesPartialUpdateRequest {
+	return ApiOpportunitiesPartialUpdateRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return OpportunityResponse
+ */
+func (a *OpportunitiesApiService) OpportunitiesPartialUpdateExecute(r ApiOpportunitiesPartialUpdateRequest) (OpportunityResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  OpportunityResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OpportunitiesApiService.OpportunitiesPartialUpdate")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/opportunities/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.xAccountToken == nil {
+		return localVarReturnValue, nil, reportError("xAccountToken is required and must be specified")
+	}
+	if r.patchedOpportunityEndpointRequest == nil {
+		return localVarReturnValue, nil, reportError("patchedOpportunityEndpointRequest is required and must be specified")
+	}
+
+	if r.isDebugMode != nil {
+		localVarQueryParams.Add("is_debug_mode", parameterToString(*r.isDebugMode, ""))
+	}
+	if r.runAsync != nil {
+		localVarQueryParams.Add("run_async", parameterToString(*r.runAsync, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json", "application/x-www-form-urlencoded", "multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Account-Token"] = parameterToString(*r.xAccountToken, "")
+	// body params
+	localVarPostBody = r.patchedOpportunityEndpointRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["tokenAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiOpportunitiesRemoteFieldClassesListRequest struct {
+	ctx _context.Context
+	ApiService *OpportunitiesApiService
+	xAccountToken *string
+	cursor *string
+	includeDeletedData *bool
+	includeRemoteData *bool
+	includeRemoteFields *bool
+	pageSize *int32
+}
+
+func (r ApiOpportunitiesRemoteFieldClassesListRequest) XAccountToken(xAccountToken string) ApiOpportunitiesRemoteFieldClassesListRequest {
+	r.xAccountToken = &xAccountToken
+	return r
+}
+func (r ApiOpportunitiesRemoteFieldClassesListRequest) Cursor(cursor string) ApiOpportunitiesRemoteFieldClassesListRequest {
+	r.cursor = &cursor
+	return r
+}
+func (r ApiOpportunitiesRemoteFieldClassesListRequest) IncludeDeletedData(includeDeletedData bool) ApiOpportunitiesRemoteFieldClassesListRequest {
+	r.includeDeletedData = &includeDeletedData
+	return r
+}
+func (r ApiOpportunitiesRemoteFieldClassesListRequest) IncludeRemoteData(includeRemoteData bool) ApiOpportunitiesRemoteFieldClassesListRequest {
+	r.includeRemoteData = &includeRemoteData
+	return r
+}
+func (r ApiOpportunitiesRemoteFieldClassesListRequest) IncludeRemoteFields(includeRemoteFields bool) ApiOpportunitiesRemoteFieldClassesListRequest {
+	r.includeRemoteFields = &includeRemoteFields
+	return r
+}
+func (r ApiOpportunitiesRemoteFieldClassesListRequest) PageSize(pageSize int32) ApiOpportunitiesRemoteFieldClassesListRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+func (r ApiOpportunitiesRemoteFieldClassesListRequest) Execute() (PaginatedRemoteFieldClassList, *_nethttp.Response, error) {
+	return r.ApiService.OpportunitiesRemoteFieldClassesListExecute(r)
+}
+
+/*
+ * OpportunitiesRemoteFieldClassesList Method for OpportunitiesRemoteFieldClassesList
+ * Returns a list of `RemoteFieldClass` objects.
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @return ApiOpportunitiesRemoteFieldClassesListRequest
+ */
+func (a *OpportunitiesApiService) OpportunitiesRemoteFieldClassesList(ctx _context.Context) ApiOpportunitiesRemoteFieldClassesListRequest {
+	return ApiOpportunitiesRemoteFieldClassesListRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return PaginatedRemoteFieldClassList
+ */
+func (a *OpportunitiesApiService) OpportunitiesRemoteFieldClassesListExecute(r ApiOpportunitiesRemoteFieldClassesListRequest) (PaginatedRemoteFieldClassList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  PaginatedRemoteFieldClassList
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OpportunitiesApiService.OpportunitiesRemoteFieldClassesList")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/opportunities/remote-field-classes"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.xAccountToken == nil {
+		return localVarReturnValue, nil, reportError("xAccountToken is required and must be specified")
+	}
+
+	if r.cursor != nil {
+		localVarQueryParams.Add("cursor", parameterToString(*r.cursor, ""))
+	}
+	if r.includeDeletedData != nil {
+		localVarQueryParams.Add("include_deleted_data", parameterToString(*r.includeDeletedData, ""))
+	}
+	if r.includeRemoteData != nil {
+		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
+	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
+	}
+	if r.pageSize != nil {
+		localVarQueryParams.Add("page_size", parameterToString(*r.pageSize, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Account-Token"] = parameterToString(*r.xAccountToken, "")
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["tokenAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiOpportunitiesRetrieveRequest struct {
 	ctx _context.Context
 	ApiService *OpportunitiesApiService
 	xAccountToken *string
 	id string
 	includeRemoteData *bool
+	includeRemoteFields *bool
 	remoteFields *string
+	showEnumOrigins *string
 }
 
 func (r ApiOpportunitiesRetrieveRequest) XAccountToken(xAccountToken string) ApiOpportunitiesRetrieveRequest {
@@ -559,8 +1026,16 @@ func (r ApiOpportunitiesRetrieveRequest) IncludeRemoteData(includeRemoteData boo
 	r.includeRemoteData = &includeRemoteData
 	return r
 }
+func (r ApiOpportunitiesRetrieveRequest) IncludeRemoteFields(includeRemoteFields bool) ApiOpportunitiesRetrieveRequest {
+	r.includeRemoteFields = &includeRemoteFields
+	return r
+}
 func (r ApiOpportunitiesRetrieveRequest) RemoteFields(remoteFields string) ApiOpportunitiesRetrieveRequest {
 	r.remoteFields = &remoteFields
+	return r
+}
+func (r ApiOpportunitiesRetrieveRequest) ShowEnumOrigins(showEnumOrigins string) ApiOpportunitiesRetrieveRequest {
+	r.showEnumOrigins = &showEnumOrigins
 	return r
 }
 
@@ -615,8 +1090,14 @@ func (a *OpportunitiesApiService) OpportunitiesRetrieveExecute(r ApiOpportunitie
 	if r.includeRemoteData != nil {
 		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
 	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
+	}
 	if r.remoteFields != nil {
 		localVarQueryParams.Add("remote_fields", parameterToString(*r.remoteFields, ""))
+	}
+	if r.showEnumOrigins != nil {
+		localVarQueryParams.Add("show_enum_origins", parameterToString(*r.showEnumOrigins, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

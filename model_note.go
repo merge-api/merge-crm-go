@@ -16,24 +16,33 @@ import (
 	"time"
 )
 
-// Note # The Note Object ### Description The `Note` object is used to represent a note in the remote system. ### Usage Example TODO
+// Note # The Note Object ### Description The `Note` object is used to represent a note on another object. ### Usage Example TODO
 type Note struct {
-	Id *string `json:"id,omitempty"`
-	// The third-party API ID of the matching object.
-	RemoteId NullableString `json:"remote_id,omitempty"`
+	// The note's owner.
 	Owner NullableString `json:"owner,omitempty"`
 	// The note's content.
 	Content NullableString `json:"content,omitempty"`
+	// The note's contact.
 	Contact NullableString `json:"contact,omitempty"`
+	// The note's account.
 	Account NullableString `json:"account,omitempty"`
+	// The note's opportunity.
 	Opportunity NullableString `json:"opportunity,omitempty"`
 	// When the third party's lead was updated.
 	RemoteUpdatedAt NullableTime `json:"remote_updated_at,omitempty"`
 	// When the third party's lead was created.
 	RemoteCreatedAt NullableTime `json:"remote_created_at,omitempty"`
 	RemoteWasDeleted *bool `json:"remote_was_deleted,omitempty"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	Id *string `json:"id,omitempty"`
+	// The third-party API ID of the matching object.
+	RemoteId NullableString `json:"remote_id,omitempty"`
+	FieldMappings map[string]interface{} `json:"field_mappings,omitempty"`
+	// This is the datetime that this object was last updated by Merge
+	ModifiedAt *time.Time `json:"modified_at,omitempty"`
+	RemoteData []RemoteData `json:"remote_data,omitempty"`
+	RemoteFields *[]RemoteField `json:"remote_fields,omitempty"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewNote instantiates a new Note object
@@ -51,80 +60,6 @@ func NewNote() *Note {
 func NewNoteWithDefaults() *Note {
 	this := Note{}
 	return &this
-}
-
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *Note) GetId() string {
-	if o == nil || o.Id == nil {
-		var ret string
-		return ret
-	}
-	return *o.Id
-}
-
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Note) GetIdOk() (*string, bool) {
-	if o == nil || o.Id == nil {
-		return nil, false
-	}
-	return o.Id, true
-}
-
-// HasId returns a boolean if a field has been set.
-func (o *Note) HasId() bool {
-	if o != nil && o.Id != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetId gets a reference to the given string and assigns it to the Id field.
-func (o *Note) SetId(v string) {
-	o.Id = &v
-}
-
-// GetRemoteId returns the RemoteId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Note) GetRemoteId() string {
-	if o == nil || o.RemoteId.Get() == nil {
-		var ret string
-		return ret
-	}
-	return *o.RemoteId.Get()
-}
-
-// GetRemoteIdOk returns a tuple with the RemoteId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Note) GetRemoteIdOk() (*string, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return o.RemoteId.Get(), o.RemoteId.IsSet()
-}
-
-// HasRemoteId returns a boolean if a field has been set.
-func (o *Note) HasRemoteId() bool {
-	if o != nil && o.RemoteId.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetRemoteId gets a reference to the given NullableString and assigns it to the RemoteId field.
-func (o *Note) SetRemoteId(v string) {
-	o.RemoteId.Set(&v)
-}
-// SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-func (o *Note) SetRemoteIdNil() {
-	o.RemoteId.Set(nil)
-}
-
-// UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
-func (o *Note) UnsetRemoteId() {
-	o.RemoteId.Unset()
 }
 
 // GetOwner returns the Owner field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -453,14 +388,212 @@ func (o *Note) SetRemoteWasDeleted(v bool) {
 	o.RemoteWasDeleted = &v
 }
 
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *Note) GetId() string {
+	if o == nil || o.Id == nil {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Note) GetIdOk() (*string, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *Note) HasId() bool {
+	if o != nil && o.Id != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *Note) SetId(v string) {
+	o.Id = &v
+}
+
+// GetRemoteId returns the RemoteId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Note) GetRemoteId() string {
+	if o == nil || o.RemoteId.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.RemoteId.Get()
+}
+
+// GetRemoteIdOk returns a tuple with the RemoteId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Note) GetRemoteIdOk() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return o.RemoteId.Get(), o.RemoteId.IsSet()
+}
+
+// HasRemoteId returns a boolean if a field has been set.
+func (o *Note) HasRemoteId() bool {
+	if o != nil && o.RemoteId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetRemoteId gets a reference to the given NullableString and assigns it to the RemoteId field.
+func (o *Note) SetRemoteId(v string) {
+	o.RemoteId.Set(&v)
+}
+// SetRemoteIdNil sets the value for RemoteId to be an explicit nil
+func (o *Note) SetRemoteIdNil() {
+	o.RemoteId.Set(nil)
+}
+
+// UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
+func (o *Note) UnsetRemoteId() {
+	o.RemoteId.Unset()
+}
+
+// GetFieldMappings returns the FieldMappings field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Note) GetFieldMappings() map[string]interface{} {
+	if o == nil  {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.FieldMappings
+}
+
+// GetFieldMappingsOk returns a tuple with the FieldMappings field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Note) GetFieldMappingsOk() (*map[string]interface{}, bool) {
+	if o == nil || o.FieldMappings == nil {
+		return nil, false
+	}
+	return &o.FieldMappings, true
+}
+
+// HasFieldMappings returns a boolean if a field has been set.
+func (o *Note) HasFieldMappings() bool {
+	if o != nil && o.FieldMappings != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetFieldMappings gets a reference to the given map[string]interface{} and assigns it to the FieldMappings field.
+func (o *Note) SetFieldMappings(v map[string]interface{}) {
+	o.FieldMappings = v
+}
+
+// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise.
+func (o *Note) GetModifiedAt() time.Time {
+	if o == nil || o.ModifiedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.ModifiedAt
+}
+
+// GetModifiedAtOk returns a tuple with the ModifiedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Note) GetModifiedAtOk() (*time.Time, bool) {
+	if o == nil || o.ModifiedAt == nil {
+		return nil, false
+	}
+	return o.ModifiedAt, true
+}
+
+// HasModifiedAt returns a boolean if a field has been set.
+func (o *Note) HasModifiedAt() bool {
+	if o != nil && o.ModifiedAt != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetModifiedAt gets a reference to the given time.Time and assigns it to the ModifiedAt field.
+func (o *Note) SetModifiedAt(v time.Time) {
+	o.ModifiedAt = &v
+}
+
+// GetRemoteData returns the RemoteData field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Note) GetRemoteData() []RemoteData {
+	if o == nil  {
+		var ret []RemoteData
+		return ret
+	}
+	return o.RemoteData
+}
+
+// GetRemoteDataOk returns a tuple with the RemoteData field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Note) GetRemoteDataOk() (*[]RemoteData, bool) {
+	if o == nil || o.RemoteData == nil {
+		return nil, false
+	}
+	return &o.RemoteData, true
+}
+
+// HasRemoteData returns a boolean if a field has been set.
+func (o *Note) HasRemoteData() bool {
+	if o != nil && o.RemoteData != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetRemoteData gets a reference to the given []RemoteData and assigns it to the RemoteData field.
+func (o *Note) SetRemoteData(v []RemoteData) {
+	o.RemoteData = v
+}
+
+// GetRemoteFields returns the RemoteFields field value if set, zero value otherwise.
+func (o *Note) GetRemoteFields() []RemoteField {
+	if o == nil || o.RemoteFields == nil {
+		var ret []RemoteField
+		return ret
+	}
+	return *o.RemoteFields
+}
+
+// GetRemoteFieldsOk returns a tuple with the RemoteFields field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Note) GetRemoteFieldsOk() (*[]RemoteField, bool) {
+	if o == nil || o.RemoteFields == nil {
+		return nil, false
+	}
+	return o.RemoteFields, true
+}
+
+// HasRemoteFields returns a boolean if a field has been set.
+func (o *Note) HasRemoteFields() bool {
+	if o != nil && o.RemoteFields != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetRemoteFields gets a reference to the given []RemoteField and assigns it to the RemoteFields field.
+func (o *Note) SetRemoteFields(v []RemoteField) {
+	o.RemoteFields = &v
+}
+
 func (o Note) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.RemoteId.IsSet() {
-		toSerialize["remote_id"] = o.RemoteId.Get()
-	}
 	if o.Owner.IsSet() {
 		toSerialize["owner"] = o.Owner.Get()
 	}
@@ -484,6 +617,24 @@ func (o Note) MarshalJSON() ([]byte, error) {
 	}
 	if o.RemoteWasDeleted != nil {
 		toSerialize["remote_was_deleted"] = o.RemoteWasDeleted
+	}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
+	if o.RemoteId.IsSet() {
+		toSerialize["remote_id"] = o.RemoteId.Get()
+	}
+	if o.FieldMappings != nil {
+		toSerialize["field_mappings"] = o.FieldMappings
+	}
+	if o.ModifiedAt != nil {
+		toSerialize["modified_at"] = o.ModifiedAt
+	}
+	if o.RemoteData != nil {
+		toSerialize["remote_data"] = o.RemoteData
+	}
+	if o.RemoteFields != nil {
+		toSerialize["remote_fields"] = o.RemoteFields
 	}
 	return json.Marshal(toSerialize)
 }

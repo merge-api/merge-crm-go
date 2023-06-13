@@ -26,8 +26,10 @@ type AccountDetails struct {
 	EndUserEmailAddress *string `json:"end_user_email_address,omitempty"`
 	Status *string `json:"status,omitempty"`
 	WebhookListenerUrl *string `json:"webhook_listener_url,omitempty"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	// Whether a Production Linked Account's credentials match another existing Production Linked Account. This field is `null` for Test Linked Accounts, incomplete Production Linked Accounts, and ignored duplicate Production Linked Account sets.
+	IsDuplicate NullableBool `json:"is_duplicate,omitempty"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewAccountDetails instantiates a new AccountDetails object
@@ -345,6 +347,48 @@ func (o *AccountDetails) SetWebhookListenerUrl(v string) {
 	o.WebhookListenerUrl = &v
 }
 
+// GetIsDuplicate returns the IsDuplicate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *AccountDetails) GetIsDuplicate() bool {
+	if o == nil || o.IsDuplicate.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsDuplicate.Get()
+}
+
+// GetIsDuplicateOk returns a tuple with the IsDuplicate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *AccountDetails) GetIsDuplicateOk() (*bool, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return o.IsDuplicate.Get(), o.IsDuplicate.IsSet()
+}
+
+// HasIsDuplicate returns a boolean if a field has been set.
+func (o *AccountDetails) HasIsDuplicate() bool {
+	if o != nil && o.IsDuplicate.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetIsDuplicate gets a reference to the given NullableBool and assigns it to the IsDuplicate field.
+func (o *AccountDetails) SetIsDuplicate(v bool) {
+	o.IsDuplicate.Set(&v)
+}
+// SetIsDuplicateNil sets the value for IsDuplicate to be an explicit nil
+func (o *AccountDetails) SetIsDuplicateNil() {
+	o.IsDuplicate.Set(nil)
+}
+
+// UnsetIsDuplicate ensures that no value is present for IsDuplicate, not even an explicit nil
+func (o *AccountDetails) UnsetIsDuplicate() {
+	o.IsDuplicate.Unset()
+}
+
 func (o AccountDetails) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
@@ -373,6 +417,9 @@ func (o AccountDetails) MarshalJSON() ([]byte, error) {
 	}
 	if o.WebhookListenerUrl != nil {
 		toSerialize["webhook_listener_url"] = o.WebhookListenerUrl
+	}
+	if o.IsDuplicate.IsSet() {
+		toSerialize["is_duplicate"] = o.IsDuplicate.Get()
 	}
 	return json.Marshal(toSerialize)
 }

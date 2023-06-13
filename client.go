@@ -55,11 +55,23 @@ type APIClient struct {
 
 	AccountsApi *AccountsApiService
 
+	AssociationTypesApi *AssociationTypesApiService
+
+	AssociationsApi *AssociationsApiService
+
 	AvailableActionsApi *AvailableActionsApiService
 
 	ContactsApi *ContactsApiService
 
+	CustomObjectClassesApi *CustomObjectClassesApiService
+
+	CustomObjectsApi *CustomObjectsApiService
+
 	DeleteAccountApi *DeleteAccountApiService
+
+	EngagementTypesApi *EngagementTypesApiService
+
+	EngagementsApi *EngagementsApiService
 
 	ForceResyncApi *ForceResyncApiService
 
@@ -81,9 +93,13 @@ type APIClient struct {
 
 	RegenerateKeyApi *RegenerateKeyApiService
 
+	SelectiveSyncApi *SelectiveSyncApiService
+
 	StagesApi *StagesApiService
 
 	SyncStatusApi *SyncStatusApiService
+
+	TasksApi *TasksApiService
 
 	UsersApi *UsersApiService
 
@@ -109,9 +125,15 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.AccountDetailsApi = (*AccountDetailsApiService)(&c.common)
 	c.AccountTokenApi = (*AccountTokenApiService)(&c.common)
 	c.AccountsApi = (*AccountsApiService)(&c.common)
+	c.AssociationTypesApi = (*AssociationTypesApiService)(&c.common)
+	c.AssociationsApi = (*AssociationsApiService)(&c.common)
 	c.AvailableActionsApi = (*AvailableActionsApiService)(&c.common)
 	c.ContactsApi = (*ContactsApiService)(&c.common)
+	c.CustomObjectClassesApi = (*CustomObjectClassesApiService)(&c.common)
+	c.CustomObjectsApi = (*CustomObjectsApiService)(&c.common)
 	c.DeleteAccountApi = (*DeleteAccountApiService)(&c.common)
+	c.EngagementTypesApi = (*EngagementTypesApiService)(&c.common)
+	c.EngagementsApi = (*EngagementsApiService)(&c.common)
 	c.ForceResyncApi = (*ForceResyncApiService)(&c.common)
 	c.GenerateKeyApi = (*GenerateKeyApiService)(&c.common)
 	c.IssuesApi = (*IssuesApiService)(&c.common)
@@ -122,8 +144,10 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.OpportunitiesApi = (*OpportunitiesApiService)(&c.common)
 	c.PassthroughApi = (*PassthroughApiService)(&c.common)
 	c.RegenerateKeyApi = (*RegenerateKeyApiService)(&c.common)
+	c.SelectiveSyncApi = (*SelectiveSyncApiService)(&c.common)
 	c.StagesApi = (*StagesApiService)(&c.common)
 	c.SyncStatusApi = (*SyncStatusApiService)(&c.common)
+	c.TasksApi = (*TasksApiService)(&c.common)
 	c.UsersApi = (*UsersApiService)(&c.common)
 	c.WebhookReceiversApi = (*WebhookReceiversApiService)(&c.common)
 

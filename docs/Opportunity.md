@@ -4,19 +4,23 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **string** |  | [optional] [readonly] 
-**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
 **Name** | Pointer to **NullableString** | The opportunity&#39;s name. | [optional] 
 **Description** | Pointer to **NullableString** | The opportunity&#39;s description. | [optional] 
 **Amount** | Pointer to **NullableInt32** | The opportunity&#39;s amount. | [optional] 
-**Owner** | Pointer to **NullableString** |  | [optional] 
-**Account** | Pointer to **NullableString** |  | [optional] 
-**Stage** | Pointer to **NullableString** |  | [optional] 
-**Status** | Pointer to [**NullableOpportunityStatusEnum**](OpportunityStatusEnum.md) | The opportunity&#39;s status. | [optional] 
+**Owner** | Pointer to **NullableString** | The opportunity&#39;s owner. | [optional] 
+**Account** | Pointer to **NullableString** | The account of the opportunity. | [optional] 
+**Stage** | Pointer to **NullableString** | The stage of the opportunity. | [optional] 
+**Status** | Pointer to [**NullableOpportunityStatusEnum**](OpportunityStatusEnum.md) | The opportunity&#39;s status.  * &#x60;OPEN&#x60; - OPEN * &#x60;WON&#x60; - WON * &#x60;LOST&#x60; - LOST | [optional] 
 **LastActivityAt** | Pointer to **NullableTime** | When the opportunity&#39;s last activity occurred. | [optional] 
 **CloseDate** | Pointer to **NullableTime** | When the opportunity was closed. | [optional] 
 **RemoteCreatedAt** | Pointer to **NullableTime** | When the third party&#39;s opportunity was created. | [optional] 
 **RemoteWasDeleted** | Pointer to **bool** |  | [optional] [readonly] 
+**Id** | Pointer to **string** |  | [optional] [readonly] 
+**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
+**FieldMappings** | Pointer to **map[string]interface{}** |  | [optional] [readonly] 
+**ModifiedAt** | Pointer to **time.Time** | This is the datetime that this object was last updated by Merge | [optional] [readonly] 
+**RemoteData** | Pointer to [**[]RemoteData**](RemoteData.md) |  | [optional] [readonly] 
+**RemoteFields** | Pointer to [**[]RemoteField**](RemoteField.md) |  | [optional] [readonly] 
 
 ## Methods
 
@@ -37,66 +41,6 @@ NewOpportunityWithDefaults instantiates a new Opportunity object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
-
-`func (o *Opportunity) GetId() string`
-
-GetId returns the Id field if non-nil, zero value otherwise.
-
-### GetIdOk
-
-`func (o *Opportunity) GetIdOk() (*string, bool)`
-
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetId
-
-`func (o *Opportunity) SetId(v string)`
-
-SetId sets Id field to given value.
-
-### HasId
-
-`func (o *Opportunity) HasId() bool`
-
-HasId returns a boolean if a field has been set.
-
-### GetRemoteId
-
-`func (o *Opportunity) GetRemoteId() string`
-
-GetRemoteId returns the RemoteId field if non-nil, zero value otherwise.
-
-### GetRemoteIdOk
-
-`func (o *Opportunity) GetRemoteIdOk() (*string, bool)`
-
-GetRemoteIdOk returns a tuple with the RemoteId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteId
-
-`func (o *Opportunity) SetRemoteId(v string)`
-
-SetRemoteId sets RemoteId field to given value.
-
-### HasRemoteId
-
-`func (o *Opportunity) HasRemoteId() bool`
-
-HasRemoteId returns a boolean if a field has been set.
-
-### SetRemoteIdNil
-
-`func (o *Opportunity) SetRemoteIdNil(b bool)`
-
- SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-
-### UnsetRemoteId
-`func (o *Opportunity) UnsetRemoteId()`
-
-UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
 ### GetName
 
 `func (o *Opportunity) GetName() string`
@@ -471,6 +415,186 @@ SetRemoteWasDeleted sets RemoteWasDeleted field to given value.
 `func (o *Opportunity) HasRemoteWasDeleted() bool`
 
 HasRemoteWasDeleted returns a boolean if a field has been set.
+
+### GetId
+
+`func (o *Opportunity) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *Opportunity) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *Opportunity) SetId(v string)`
+
+SetId sets Id field to given value.
+
+### HasId
+
+`func (o *Opportunity) HasId() bool`
+
+HasId returns a boolean if a field has been set.
+
+### GetRemoteId
+
+`func (o *Opportunity) GetRemoteId() string`
+
+GetRemoteId returns the RemoteId field if non-nil, zero value otherwise.
+
+### GetRemoteIdOk
+
+`func (o *Opportunity) GetRemoteIdOk() (*string, bool)`
+
+GetRemoteIdOk returns a tuple with the RemoteId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteId
+
+`func (o *Opportunity) SetRemoteId(v string)`
+
+SetRemoteId sets RemoteId field to given value.
+
+### HasRemoteId
+
+`func (o *Opportunity) HasRemoteId() bool`
+
+HasRemoteId returns a boolean if a field has been set.
+
+### SetRemoteIdNil
+
+`func (o *Opportunity) SetRemoteIdNil(b bool)`
+
+ SetRemoteIdNil sets the value for RemoteId to be an explicit nil
+
+### UnsetRemoteId
+`func (o *Opportunity) UnsetRemoteId()`
+
+UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
+### GetFieldMappings
+
+`func (o *Opportunity) GetFieldMappings() map[string]interface{}`
+
+GetFieldMappings returns the FieldMappings field if non-nil, zero value otherwise.
+
+### GetFieldMappingsOk
+
+`func (o *Opportunity) GetFieldMappingsOk() (*map[string]interface{}, bool)`
+
+GetFieldMappingsOk returns a tuple with the FieldMappings field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFieldMappings
+
+`func (o *Opportunity) SetFieldMappings(v map[string]interface{})`
+
+SetFieldMappings sets FieldMappings field to given value.
+
+### HasFieldMappings
+
+`func (o *Opportunity) HasFieldMappings() bool`
+
+HasFieldMappings returns a boolean if a field has been set.
+
+### SetFieldMappingsNil
+
+`func (o *Opportunity) SetFieldMappingsNil(b bool)`
+
+ SetFieldMappingsNil sets the value for FieldMappings to be an explicit nil
+
+### UnsetFieldMappings
+`func (o *Opportunity) UnsetFieldMappings()`
+
+UnsetFieldMappings ensures that no value is present for FieldMappings, not even an explicit nil
+### GetModifiedAt
+
+`func (o *Opportunity) GetModifiedAt() time.Time`
+
+GetModifiedAt returns the ModifiedAt field if non-nil, zero value otherwise.
+
+### GetModifiedAtOk
+
+`func (o *Opportunity) GetModifiedAtOk() (*time.Time, bool)`
+
+GetModifiedAtOk returns a tuple with the ModifiedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModifiedAt
+
+`func (o *Opportunity) SetModifiedAt(v time.Time)`
+
+SetModifiedAt sets ModifiedAt field to given value.
+
+### HasModifiedAt
+
+`func (o *Opportunity) HasModifiedAt() bool`
+
+HasModifiedAt returns a boolean if a field has been set.
+
+### GetRemoteData
+
+`func (o *Opportunity) GetRemoteData() []RemoteData`
+
+GetRemoteData returns the RemoteData field if non-nil, zero value otherwise.
+
+### GetRemoteDataOk
+
+`func (o *Opportunity) GetRemoteDataOk() (*[]RemoteData, bool)`
+
+GetRemoteDataOk returns a tuple with the RemoteData field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteData
+
+`func (o *Opportunity) SetRemoteData(v []RemoteData)`
+
+SetRemoteData sets RemoteData field to given value.
+
+### HasRemoteData
+
+`func (o *Opportunity) HasRemoteData() bool`
+
+HasRemoteData returns a boolean if a field has been set.
+
+### SetRemoteDataNil
+
+`func (o *Opportunity) SetRemoteDataNil(b bool)`
+
+ SetRemoteDataNil sets the value for RemoteData to be an explicit nil
+
+### UnsetRemoteData
+`func (o *Opportunity) UnsetRemoteData()`
+
+UnsetRemoteData ensures that no value is present for RemoteData, not even an explicit nil
+### GetRemoteFields
+
+`func (o *Opportunity) GetRemoteFields() []RemoteField`
+
+GetRemoteFields returns the RemoteFields field if non-nil, zero value otherwise.
+
+### GetRemoteFieldsOk
+
+`func (o *Opportunity) GetRemoteFieldsOk() (*[]RemoteField, bool)`
+
+GetRemoteFieldsOk returns a tuple with the RemoteFields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteFields
+
+`func (o *Opportunity) SetRemoteFields(v []RemoteField)`
+
+SetRemoteFields sets RemoteFields field to given value.
+
+### HasRemoteFields
+
+`func (o *Opportunity) HasRemoteFields() bool`
+
+HasRemoteFields returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

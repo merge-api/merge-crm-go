@@ -4,10 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **string** |  | [optional] [readonly] 
-**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
 **Name** | Pointer to **NullableString** | The stage&#39;s name. | [optional] 
 **RemoteWasDeleted** | Pointer to **bool** | Indicates whether or not this object has been deleted by third party webhooks. | [optional] [readonly] 
+**Id** | Pointer to **string** |  | [optional] [readonly] 
+**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
+**FieldMappings** | Pointer to **map[string]interface{}** |  | [optional] [readonly] 
+**ModifiedAt** | Pointer to **time.Time** | This is the datetime that this object was last updated by Merge | [optional] [readonly] 
+**RemoteData** | Pointer to [**[]RemoteData**](RemoteData.md) |  | [optional] [readonly] 
+**RemoteFields** | Pointer to [**[]RemoteField**](RemoteField.md) |  | [optional] [readonly] 
 
 ## Methods
 
@@ -27,6 +31,66 @@ will change when the set of required properties is changed
 NewStageWithDefaults instantiates a new Stage object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetName
+
+`func (o *Stage) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *Stage) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *Stage) SetName(v string)`
+
+SetName sets Name field to given value.
+
+### HasName
+
+`func (o *Stage) HasName() bool`
+
+HasName returns a boolean if a field has been set.
+
+### SetNameNil
+
+`func (o *Stage) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *Stage) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
+### GetRemoteWasDeleted
+
+`func (o *Stage) GetRemoteWasDeleted() bool`
+
+GetRemoteWasDeleted returns the RemoteWasDeleted field if non-nil, zero value otherwise.
+
+### GetRemoteWasDeletedOk
+
+`func (o *Stage) GetRemoteWasDeletedOk() (*bool, bool)`
+
+GetRemoteWasDeletedOk returns a tuple with the RemoteWasDeleted field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteWasDeleted
+
+`func (o *Stage) SetRemoteWasDeleted(v bool)`
+
+SetRemoteWasDeleted sets RemoteWasDeleted field to given value.
+
+### HasRemoteWasDeleted
+
+`func (o *Stage) HasRemoteWasDeleted() bool`
+
+HasRemoteWasDeleted returns a boolean if a field has been set.
 
 ### GetId
 
@@ -88,65 +152,125 @@ HasRemoteId returns a boolean if a field has been set.
 `func (o *Stage) UnsetRemoteId()`
 
 UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
-### GetName
+### GetFieldMappings
 
-`func (o *Stage) GetName() string`
+`func (o *Stage) GetFieldMappings() map[string]interface{}`
 
-GetName returns the Name field if non-nil, zero value otherwise.
+GetFieldMappings returns the FieldMappings field if non-nil, zero value otherwise.
 
-### GetNameOk
+### GetFieldMappingsOk
 
-`func (o *Stage) GetNameOk() (*string, bool)`
+`func (o *Stage) GetFieldMappingsOk() (*map[string]interface{}, bool)`
 
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+GetFieldMappingsOk returns a tuple with the FieldMappings field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetName
+### SetFieldMappings
 
-`func (o *Stage) SetName(v string)`
+`func (o *Stage) SetFieldMappings(v map[string]interface{})`
 
-SetName sets Name field to given value.
+SetFieldMappings sets FieldMappings field to given value.
 
-### HasName
+### HasFieldMappings
 
-`func (o *Stage) HasName() bool`
+`func (o *Stage) HasFieldMappings() bool`
 
-HasName returns a boolean if a field has been set.
+HasFieldMappings returns a boolean if a field has been set.
 
-### SetNameNil
+### SetFieldMappingsNil
 
-`func (o *Stage) SetNameNil(b bool)`
+`func (o *Stage) SetFieldMappingsNil(b bool)`
 
- SetNameNil sets the value for Name to be an explicit nil
+ SetFieldMappingsNil sets the value for FieldMappings to be an explicit nil
 
-### UnsetName
-`func (o *Stage) UnsetName()`
+### UnsetFieldMappings
+`func (o *Stage) UnsetFieldMappings()`
 
-UnsetName ensures that no value is present for Name, not even an explicit nil
-### GetRemoteWasDeleted
+UnsetFieldMappings ensures that no value is present for FieldMappings, not even an explicit nil
+### GetModifiedAt
 
-`func (o *Stage) GetRemoteWasDeleted() bool`
+`func (o *Stage) GetModifiedAt() time.Time`
 
-GetRemoteWasDeleted returns the RemoteWasDeleted field if non-nil, zero value otherwise.
+GetModifiedAt returns the ModifiedAt field if non-nil, zero value otherwise.
 
-### GetRemoteWasDeletedOk
+### GetModifiedAtOk
 
-`func (o *Stage) GetRemoteWasDeletedOk() (*bool, bool)`
+`func (o *Stage) GetModifiedAtOk() (*time.Time, bool)`
 
-GetRemoteWasDeletedOk returns a tuple with the RemoteWasDeleted field if it's non-nil, zero value otherwise
+GetModifiedAtOk returns a tuple with the ModifiedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRemoteWasDeleted
+### SetModifiedAt
 
-`func (o *Stage) SetRemoteWasDeleted(v bool)`
+`func (o *Stage) SetModifiedAt(v time.Time)`
 
-SetRemoteWasDeleted sets RemoteWasDeleted field to given value.
+SetModifiedAt sets ModifiedAt field to given value.
 
-### HasRemoteWasDeleted
+### HasModifiedAt
 
-`func (o *Stage) HasRemoteWasDeleted() bool`
+`func (o *Stage) HasModifiedAt() bool`
 
-HasRemoteWasDeleted returns a boolean if a field has been set.
+HasModifiedAt returns a boolean if a field has been set.
+
+### GetRemoteData
+
+`func (o *Stage) GetRemoteData() []RemoteData`
+
+GetRemoteData returns the RemoteData field if non-nil, zero value otherwise.
+
+### GetRemoteDataOk
+
+`func (o *Stage) GetRemoteDataOk() (*[]RemoteData, bool)`
+
+GetRemoteDataOk returns a tuple with the RemoteData field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteData
+
+`func (o *Stage) SetRemoteData(v []RemoteData)`
+
+SetRemoteData sets RemoteData field to given value.
+
+### HasRemoteData
+
+`func (o *Stage) HasRemoteData() bool`
+
+HasRemoteData returns a boolean if a field has been set.
+
+### SetRemoteDataNil
+
+`func (o *Stage) SetRemoteDataNil(b bool)`
+
+ SetRemoteDataNil sets the value for RemoteData to be an explicit nil
+
+### UnsetRemoteData
+`func (o *Stage) UnsetRemoteData()`
+
+UnsetRemoteData ensures that no value is present for RemoteData, not even an explicit nil
+### GetRemoteFields
+
+`func (o *Stage) GetRemoteFields() []RemoteField`
+
+GetRemoteFields returns the RemoteFields field if non-nil, zero value otherwise.
+
+### GetRemoteFieldsOk
+
+`func (o *Stage) GetRemoteFieldsOk() (*[]RemoteField, bool)`
+
+GetRemoteFieldsOk returns a tuple with the RemoteFields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteFields
+
+`func (o *Stage) SetRemoteFields(v []RemoteField)`
+
+SetRemoteFields sets RemoteFields field to given value.
+
+### HasRemoteFields
+
+`func (o *Stage) HasRemoteFields() bool`
+
+HasRemoteFields returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -25,9 +25,11 @@ type AccountDetailsAndActions struct {
 	EndUserOrganizationName string `json:"end_user_organization_name"`
 	EndUserEmailAddress string `json:"end_user_email_address"`
 	WebhookListenerUrl string `json:"webhook_listener_url"`
+	// Whether a Production Linked Account's credentials match another existing Production Linked Account. This field is `null` for Test Linked Accounts, incomplete Production Linked Accounts, and ignored duplicate Production Linked Account sets.
+	IsDuplicate NullableBool `json:"is_duplicate,omitempty"`
 	Integration *AccountDetailsAndActionsIntegration `json:"integration,omitempty"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewAccountDetailsAndActions instantiates a new AccountDetailsAndActions object
@@ -268,6 +270,48 @@ func (o *AccountDetailsAndActions) SetWebhookListenerUrl(v string) {
 	o.WebhookListenerUrl = v
 }
 
+// GetIsDuplicate returns the IsDuplicate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *AccountDetailsAndActions) GetIsDuplicate() bool {
+	if o == nil || o.IsDuplicate.Get() == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsDuplicate.Get()
+}
+
+// GetIsDuplicateOk returns a tuple with the IsDuplicate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *AccountDetailsAndActions) GetIsDuplicateOk() (*bool, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return o.IsDuplicate.Get(), o.IsDuplicate.IsSet()
+}
+
+// HasIsDuplicate returns a boolean if a field has been set.
+func (o *AccountDetailsAndActions) HasIsDuplicate() bool {
+	if o != nil && o.IsDuplicate.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetIsDuplicate gets a reference to the given NullableBool and assigns it to the IsDuplicate field.
+func (o *AccountDetailsAndActions) SetIsDuplicate(v bool) {
+	o.IsDuplicate.Set(&v)
+}
+// SetIsDuplicateNil sets the value for IsDuplicate to be an explicit nil
+func (o *AccountDetailsAndActions) SetIsDuplicateNil() {
+	o.IsDuplicate.Set(nil)
+}
+
+// UnsetIsDuplicate ensures that no value is present for IsDuplicate, not even an explicit nil
+func (o *AccountDetailsAndActions) UnsetIsDuplicate() {
+	o.IsDuplicate.Unset()
+}
+
 // GetIntegration returns the Integration field value if set, zero value otherwise.
 func (o *AccountDetailsAndActions) GetIntegration() AccountDetailsAndActionsIntegration {
 	if o == nil || o.Integration == nil {
@@ -325,6 +369,9 @@ func (o AccountDetailsAndActions) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["webhook_listener_url"] = o.WebhookListenerUrl
+	}
+	if o.IsDuplicate.IsSet() {
+		toSerialize["is_duplicate"] = o.IsDuplicate.Get()
 	}
 	if o.Integration != nil {
 		toSerialize["integration"] = o.Integration

@@ -18,8 +18,8 @@ import (
 // CRMContactEndpointRequest struct for CRMContactEndpointRequest
 type CRMContactEndpointRequest struct {
 	Model ContactRequest `json:"model"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewCRMContactEndpointRequest instantiates a new CRMContactEndpointRequest object
