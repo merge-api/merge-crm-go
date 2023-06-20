@@ -4,14 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
 **FirstName** | Pointer to **NullableString** | The contact&#39;s first name. | [optional] 
 **LastName** | Pointer to **NullableString** | The contact&#39;s last name. | [optional] 
-**Account** | Pointer to **NullableString** |  | [optional] 
+**Account** | Pointer to **NullableString** | The contact&#39;s account. | [optional] 
+**Addresses** | Pointer to [**[]AddressRequest**](AddressRequest.md) |  | [optional] 
+**EmailAddresses** | Pointer to [**[]EmailAddressRequest**](EmailAddressRequest.md) |  | [optional] 
+**PhoneNumbers** | Pointer to [**[]PhoneNumberRequest**](PhoneNumberRequest.md) |  | [optional] 
 **LastActivityAt** | Pointer to **NullableTime** | When the contact&#39;s last activity occurred. | [optional] 
-**RemoteCreatedAt** | Pointer to **NullableTime** | When the third party&#39;s contact was created. | [optional] 
 **IntegrationParams** | Pointer to **map[string]interface{}** |  | [optional] 
 **LinkedAccountParams** | Pointer to **map[string]interface{}** |  | [optional] 
+**RemoteFields** | Pointer to [**[]RemoteFieldRequest**](RemoteFieldRequest.md) |  | [optional] 
 
 ## Methods
 
@@ -32,41 +34,6 @@ NewContactRequestWithDefaults instantiates a new ContactRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetRemoteId
-
-`func (o *ContactRequest) GetRemoteId() string`
-
-GetRemoteId returns the RemoteId field if non-nil, zero value otherwise.
-
-### GetRemoteIdOk
-
-`func (o *ContactRequest) GetRemoteIdOk() (*string, bool)`
-
-GetRemoteIdOk returns a tuple with the RemoteId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteId
-
-`func (o *ContactRequest) SetRemoteId(v string)`
-
-SetRemoteId sets RemoteId field to given value.
-
-### HasRemoteId
-
-`func (o *ContactRequest) HasRemoteId() bool`
-
-HasRemoteId returns a boolean if a field has been set.
-
-### SetRemoteIdNil
-
-`func (o *ContactRequest) SetRemoteIdNil(b bool)`
-
- SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-
-### UnsetRemoteId
-`func (o *ContactRequest) UnsetRemoteId()`
-
-UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
 ### GetFirstName
 
 `func (o *ContactRequest) GetFirstName() string`
@@ -172,6 +139,81 @@ HasAccount returns a boolean if a field has been set.
 `func (o *ContactRequest) UnsetAccount()`
 
 UnsetAccount ensures that no value is present for Account, not even an explicit nil
+### GetAddresses
+
+`func (o *ContactRequest) GetAddresses() []AddressRequest`
+
+GetAddresses returns the Addresses field if non-nil, zero value otherwise.
+
+### GetAddressesOk
+
+`func (o *ContactRequest) GetAddressesOk() (*[]AddressRequest, bool)`
+
+GetAddressesOk returns a tuple with the Addresses field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAddresses
+
+`func (o *ContactRequest) SetAddresses(v []AddressRequest)`
+
+SetAddresses sets Addresses field to given value.
+
+### HasAddresses
+
+`func (o *ContactRequest) HasAddresses() bool`
+
+HasAddresses returns a boolean if a field has been set.
+
+### GetEmailAddresses
+
+`func (o *ContactRequest) GetEmailAddresses() []EmailAddressRequest`
+
+GetEmailAddresses returns the EmailAddresses field if non-nil, zero value otherwise.
+
+### GetEmailAddressesOk
+
+`func (o *ContactRequest) GetEmailAddressesOk() (*[]EmailAddressRequest, bool)`
+
+GetEmailAddressesOk returns a tuple with the EmailAddresses field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEmailAddresses
+
+`func (o *ContactRequest) SetEmailAddresses(v []EmailAddressRequest)`
+
+SetEmailAddresses sets EmailAddresses field to given value.
+
+### HasEmailAddresses
+
+`func (o *ContactRequest) HasEmailAddresses() bool`
+
+HasEmailAddresses returns a boolean if a field has been set.
+
+### GetPhoneNumbers
+
+`func (o *ContactRequest) GetPhoneNumbers() []PhoneNumberRequest`
+
+GetPhoneNumbers returns the PhoneNumbers field if non-nil, zero value otherwise.
+
+### GetPhoneNumbersOk
+
+`func (o *ContactRequest) GetPhoneNumbersOk() (*[]PhoneNumberRequest, bool)`
+
+GetPhoneNumbersOk returns a tuple with the PhoneNumbers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPhoneNumbers
+
+`func (o *ContactRequest) SetPhoneNumbers(v []PhoneNumberRequest)`
+
+SetPhoneNumbers sets PhoneNumbers field to given value.
+
+### HasPhoneNumbers
+
+`func (o *ContactRequest) HasPhoneNumbers() bool`
+
+HasPhoneNumbers returns a boolean if a field has been set.
+
 ### GetLastActivityAt
 
 `func (o *ContactRequest) GetLastActivityAt() time.Time`
@@ -207,41 +249,6 @@ HasLastActivityAt returns a boolean if a field has been set.
 `func (o *ContactRequest) UnsetLastActivityAt()`
 
 UnsetLastActivityAt ensures that no value is present for LastActivityAt, not even an explicit nil
-### GetRemoteCreatedAt
-
-`func (o *ContactRequest) GetRemoteCreatedAt() time.Time`
-
-GetRemoteCreatedAt returns the RemoteCreatedAt field if non-nil, zero value otherwise.
-
-### GetRemoteCreatedAtOk
-
-`func (o *ContactRequest) GetRemoteCreatedAtOk() (*time.Time, bool)`
-
-GetRemoteCreatedAtOk returns a tuple with the RemoteCreatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteCreatedAt
-
-`func (o *ContactRequest) SetRemoteCreatedAt(v time.Time)`
-
-SetRemoteCreatedAt sets RemoteCreatedAt field to given value.
-
-### HasRemoteCreatedAt
-
-`func (o *ContactRequest) HasRemoteCreatedAt() bool`
-
-HasRemoteCreatedAt returns a boolean if a field has been set.
-
-### SetRemoteCreatedAtNil
-
-`func (o *ContactRequest) SetRemoteCreatedAtNil(b bool)`
-
- SetRemoteCreatedAtNil sets the value for RemoteCreatedAt to be an explicit nil
-
-### UnsetRemoteCreatedAt
-`func (o *ContactRequest) UnsetRemoteCreatedAt()`
-
-UnsetRemoteCreatedAt ensures that no value is present for RemoteCreatedAt, not even an explicit nil
 ### GetIntegrationParams
 
 `func (o *ContactRequest) GetIntegrationParams() map[string]interface{}`
@@ -312,6 +319,31 @@ HasLinkedAccountParams returns a boolean if a field has been set.
 `func (o *ContactRequest) UnsetLinkedAccountParams()`
 
 UnsetLinkedAccountParams ensures that no value is present for LinkedAccountParams, not even an explicit nil
+### GetRemoteFields
+
+`func (o *ContactRequest) GetRemoteFields() []RemoteFieldRequest`
+
+GetRemoteFields returns the RemoteFields field if non-nil, zero value otherwise.
+
+### GetRemoteFieldsOk
+
+`func (o *ContactRequest) GetRemoteFieldsOk() (*[]RemoteFieldRequest, bool)`
+
+GetRemoteFieldsOk returns a tuple with the RemoteFields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteFields
+
+`func (o *ContactRequest) SetRemoteFields(v []RemoteFieldRequest)`
+
+SetRemoteFields sets RemoteFields field to given value.
+
+### HasRemoteFields
+
+`func (o *ContactRequest) HasRemoteFields() bool`
+
+HasRemoteFields returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

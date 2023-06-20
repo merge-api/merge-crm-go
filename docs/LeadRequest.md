@@ -4,20 +4,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
-**Owner** | Pointer to **NullableString** |  | [optional] 
+**Owner** | Pointer to **NullableString** | The lead&#39;s owner. | [optional] 
 **LeadSource** | Pointer to **NullableString** | The lead&#39;s source. | [optional] 
 **Title** | Pointer to **NullableString** | The lead&#39;s title. | [optional] 
 **Company** | Pointer to **NullableString** | The lead&#39;s company. | [optional] 
 **FirstName** | Pointer to **NullableString** | The lead&#39;s first name. | [optional] 
 **LastName** | Pointer to **NullableString** | The lead&#39;s last name. | [optional] 
-**RemoteUpdatedAt** | Pointer to **NullableTime** | When the third party&#39;s lead was updated. | [optional] 
-**RemoteCreatedAt** | Pointer to **NullableTime** | When the third party&#39;s lead was created. | [optional] 
+**Addresses** | Pointer to [**[]AddressRequest**](AddressRequest.md) |  | [optional] 
+**EmailAddresses** | Pointer to [**[]EmailAddressRequest**](EmailAddressRequest.md) |  | [optional] 
+**PhoneNumbers** | Pointer to [**[]PhoneNumberRequest**](PhoneNumberRequest.md) |  | [optional] 
 **ConvertedDate** | Pointer to **NullableTime** | When the lead was converted. | [optional] 
-**ConvertedContact** | Pointer to **NullableString** |  | [optional] 
-**ConvertedAccount** | Pointer to **NullableString** |  | [optional] 
+**ConvertedContact** | Pointer to **NullableString** | The contact of the converted lead. | [optional] 
+**ConvertedAccount** | Pointer to **NullableString** | The account of the converted lead. | [optional] 
 **IntegrationParams** | Pointer to **map[string]interface{}** |  | [optional] 
 **LinkedAccountParams** | Pointer to **map[string]interface{}** |  | [optional] 
+**RemoteFields** | Pointer to [**[]RemoteFieldRequest**](RemoteFieldRequest.md) |  | [optional] 
 
 ## Methods
 
@@ -38,41 +39,6 @@ NewLeadRequestWithDefaults instantiates a new LeadRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetRemoteId
-
-`func (o *LeadRequest) GetRemoteId() string`
-
-GetRemoteId returns the RemoteId field if non-nil, zero value otherwise.
-
-### GetRemoteIdOk
-
-`func (o *LeadRequest) GetRemoteIdOk() (*string, bool)`
-
-GetRemoteIdOk returns a tuple with the RemoteId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteId
-
-`func (o *LeadRequest) SetRemoteId(v string)`
-
-SetRemoteId sets RemoteId field to given value.
-
-### HasRemoteId
-
-`func (o *LeadRequest) HasRemoteId() bool`
-
-HasRemoteId returns a boolean if a field has been set.
-
-### SetRemoteIdNil
-
-`func (o *LeadRequest) SetRemoteIdNil(b bool)`
-
- SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-
-### UnsetRemoteId
-`func (o *LeadRequest) UnsetRemoteId()`
-
-UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
 ### GetOwner
 
 `func (o *LeadRequest) GetOwner() string`
@@ -283,76 +249,81 @@ HasLastName returns a boolean if a field has been set.
 `func (o *LeadRequest) UnsetLastName()`
 
 UnsetLastName ensures that no value is present for LastName, not even an explicit nil
-### GetRemoteUpdatedAt
+### GetAddresses
 
-`func (o *LeadRequest) GetRemoteUpdatedAt() time.Time`
+`func (o *LeadRequest) GetAddresses() []AddressRequest`
 
-GetRemoteUpdatedAt returns the RemoteUpdatedAt field if non-nil, zero value otherwise.
+GetAddresses returns the Addresses field if non-nil, zero value otherwise.
 
-### GetRemoteUpdatedAtOk
+### GetAddressesOk
 
-`func (o *LeadRequest) GetRemoteUpdatedAtOk() (*time.Time, bool)`
+`func (o *LeadRequest) GetAddressesOk() (*[]AddressRequest, bool)`
 
-GetRemoteUpdatedAtOk returns a tuple with the RemoteUpdatedAt field if it's non-nil, zero value otherwise
+GetAddressesOk returns a tuple with the Addresses field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRemoteUpdatedAt
+### SetAddresses
 
-`func (o *LeadRequest) SetRemoteUpdatedAt(v time.Time)`
+`func (o *LeadRequest) SetAddresses(v []AddressRequest)`
 
-SetRemoteUpdatedAt sets RemoteUpdatedAt field to given value.
+SetAddresses sets Addresses field to given value.
 
-### HasRemoteUpdatedAt
+### HasAddresses
 
-`func (o *LeadRequest) HasRemoteUpdatedAt() bool`
+`func (o *LeadRequest) HasAddresses() bool`
 
-HasRemoteUpdatedAt returns a boolean if a field has been set.
+HasAddresses returns a boolean if a field has been set.
 
-### SetRemoteUpdatedAtNil
+### GetEmailAddresses
 
-`func (o *LeadRequest) SetRemoteUpdatedAtNil(b bool)`
+`func (o *LeadRequest) GetEmailAddresses() []EmailAddressRequest`
 
- SetRemoteUpdatedAtNil sets the value for RemoteUpdatedAt to be an explicit nil
+GetEmailAddresses returns the EmailAddresses field if non-nil, zero value otherwise.
 
-### UnsetRemoteUpdatedAt
-`func (o *LeadRequest) UnsetRemoteUpdatedAt()`
+### GetEmailAddressesOk
 
-UnsetRemoteUpdatedAt ensures that no value is present for RemoteUpdatedAt, not even an explicit nil
-### GetRemoteCreatedAt
+`func (o *LeadRequest) GetEmailAddressesOk() (*[]EmailAddressRequest, bool)`
 
-`func (o *LeadRequest) GetRemoteCreatedAt() time.Time`
-
-GetRemoteCreatedAt returns the RemoteCreatedAt field if non-nil, zero value otherwise.
-
-### GetRemoteCreatedAtOk
-
-`func (o *LeadRequest) GetRemoteCreatedAtOk() (*time.Time, bool)`
-
-GetRemoteCreatedAtOk returns a tuple with the RemoteCreatedAt field if it's non-nil, zero value otherwise
+GetEmailAddressesOk returns a tuple with the EmailAddresses field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRemoteCreatedAt
+### SetEmailAddresses
 
-`func (o *LeadRequest) SetRemoteCreatedAt(v time.Time)`
+`func (o *LeadRequest) SetEmailAddresses(v []EmailAddressRequest)`
 
-SetRemoteCreatedAt sets RemoteCreatedAt field to given value.
+SetEmailAddresses sets EmailAddresses field to given value.
 
-### HasRemoteCreatedAt
+### HasEmailAddresses
 
-`func (o *LeadRequest) HasRemoteCreatedAt() bool`
+`func (o *LeadRequest) HasEmailAddresses() bool`
 
-HasRemoteCreatedAt returns a boolean if a field has been set.
+HasEmailAddresses returns a boolean if a field has been set.
 
-### SetRemoteCreatedAtNil
+### GetPhoneNumbers
 
-`func (o *LeadRequest) SetRemoteCreatedAtNil(b bool)`
+`func (o *LeadRequest) GetPhoneNumbers() []PhoneNumberRequest`
 
- SetRemoteCreatedAtNil sets the value for RemoteCreatedAt to be an explicit nil
+GetPhoneNumbers returns the PhoneNumbers field if non-nil, zero value otherwise.
 
-### UnsetRemoteCreatedAt
-`func (o *LeadRequest) UnsetRemoteCreatedAt()`
+### GetPhoneNumbersOk
 
-UnsetRemoteCreatedAt ensures that no value is present for RemoteCreatedAt, not even an explicit nil
+`func (o *LeadRequest) GetPhoneNumbersOk() (*[]PhoneNumberRequest, bool)`
+
+GetPhoneNumbersOk returns a tuple with the PhoneNumbers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPhoneNumbers
+
+`func (o *LeadRequest) SetPhoneNumbers(v []PhoneNumberRequest)`
+
+SetPhoneNumbers sets PhoneNumbers field to given value.
+
+### HasPhoneNumbers
+
+`func (o *LeadRequest) HasPhoneNumbers() bool`
+
+HasPhoneNumbers returns a boolean if a field has been set.
+
 ### GetConvertedDate
 
 `func (o *LeadRequest) GetConvertedDate() time.Time`
@@ -528,6 +499,31 @@ HasLinkedAccountParams returns a boolean if a field has been set.
 `func (o *LeadRequest) UnsetLinkedAccountParams()`
 
 UnsetLinkedAccountParams ensures that no value is present for LinkedAccountParams, not even an explicit nil
+### GetRemoteFields
+
+`func (o *LeadRequest) GetRemoteFields() []RemoteFieldRequest`
+
+GetRemoteFields returns the RemoteFields field if non-nil, zero value otherwise.
+
+### GetRemoteFieldsOk
+
+`func (o *LeadRequest) GetRemoteFieldsOk() (*[]RemoteFieldRequest, bool)`
+
+GetRemoteFieldsOk returns a tuple with the RemoteFields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteFields
+
+`func (o *LeadRequest) SetRemoteFields(v []RemoteFieldRequest)`
+
+SetRemoteFields sets RemoteFields field to given value.
+
+### HasRemoteFields
+
+`func (o *LeadRequest) HasRemoteFields() bool`
+
+HasRemoteFields returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

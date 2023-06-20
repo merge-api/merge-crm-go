@@ -21,8 +21,10 @@ type PhoneNumberRequest struct {
 	PhoneNumber NullableString `json:"phone_number,omitempty"`
 	// The phone number's type.
 	PhoneNumberType NullableString `json:"phone_number_type,omitempty"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	IntegrationParams map[string]interface{} `json:"integration_params,omitempty"`
+	LinkedAccountParams map[string]interface{} `json:"linked_account_params,omitempty"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewPhoneNumberRequest instantiates a new PhoneNumberRequest object
@@ -126,6 +128,72 @@ func (o *PhoneNumberRequest) UnsetPhoneNumberType() {
 	o.PhoneNumberType.Unset()
 }
 
+// GetIntegrationParams returns the IntegrationParams field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *PhoneNumberRequest) GetIntegrationParams() map[string]interface{} {
+	if o == nil  {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.IntegrationParams
+}
+
+// GetIntegrationParamsOk returns a tuple with the IntegrationParams field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *PhoneNumberRequest) GetIntegrationParamsOk() (*map[string]interface{}, bool) {
+	if o == nil || o.IntegrationParams == nil {
+		return nil, false
+	}
+	return &o.IntegrationParams, true
+}
+
+// HasIntegrationParams returns a boolean if a field has been set.
+func (o *PhoneNumberRequest) HasIntegrationParams() bool {
+	if o != nil && o.IntegrationParams != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIntegrationParams gets a reference to the given map[string]interface{} and assigns it to the IntegrationParams field.
+func (o *PhoneNumberRequest) SetIntegrationParams(v map[string]interface{}) {
+	o.IntegrationParams = v
+}
+
+// GetLinkedAccountParams returns the LinkedAccountParams field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *PhoneNumberRequest) GetLinkedAccountParams() map[string]interface{} {
+	if o == nil  {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.LinkedAccountParams
+}
+
+// GetLinkedAccountParamsOk returns a tuple with the LinkedAccountParams field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *PhoneNumberRequest) GetLinkedAccountParamsOk() (*map[string]interface{}, bool) {
+	if o == nil || o.LinkedAccountParams == nil {
+		return nil, false
+	}
+	return &o.LinkedAccountParams, true
+}
+
+// HasLinkedAccountParams returns a boolean if a field has been set.
+func (o *PhoneNumberRequest) HasLinkedAccountParams() bool {
+	if o != nil && o.LinkedAccountParams != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetLinkedAccountParams gets a reference to the given map[string]interface{} and assigns it to the LinkedAccountParams field.
+func (o *PhoneNumberRequest) SetLinkedAccountParams(v map[string]interface{}) {
+	o.LinkedAccountParams = v
+}
+
 func (o PhoneNumberRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.PhoneNumber.IsSet() {
@@ -133,6 +201,12 @@ func (o PhoneNumberRequest) MarshalJSON() ([]byte, error) {
 	}
 	if o.PhoneNumberType.IsSet() {
 		toSerialize["phone_number_type"] = o.PhoneNumberType.Get()
+	}
+	if o.IntegrationParams != nil {
+		toSerialize["integration_params"] = o.IntegrationParams
+	}
+	if o.LinkedAccountParams != nil {
+		toSerialize["linked_account_params"] = o.LinkedAccountParams
 	}
 	return json.Marshal(toSerialize)
 }

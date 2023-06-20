@@ -16,10 +16,9 @@ import (
 	"time"
 )
 
-// LeadRequest # The Lead Object ### Description The `Lead` object is used to represent a lead in the remote system. ### Usage Example TODO
+// LeadRequest # The Lead Object ### Description The `Lead` object is used to represent an individual who is a potential customer. ### Usage Example TODO
 type LeadRequest struct {
-	// The third-party API ID of the matching object.
-	RemoteId NullableString `json:"remote_id,omitempty"`
+	// The lead's owner.
 	Owner NullableString `json:"owner,omitempty"`
 	// The lead's source.
 	LeadSource NullableString `json:"lead_source,omitempty"`
@@ -31,18 +30,20 @@ type LeadRequest struct {
 	FirstName NullableString `json:"first_name,omitempty"`
 	// The lead's last name.
 	LastName NullableString `json:"last_name,omitempty"`
-	// When the third party's lead was updated.
-	RemoteUpdatedAt NullableTime `json:"remote_updated_at,omitempty"`
-	// When the third party's lead was created.
-	RemoteCreatedAt NullableTime `json:"remote_created_at,omitempty"`
+	Addresses *[]AddressRequest `json:"addresses,omitempty"`
+	EmailAddresses *[]EmailAddressRequest `json:"email_addresses,omitempty"`
+	PhoneNumbers *[]PhoneNumberRequest `json:"phone_numbers,omitempty"`
 	// When the lead was converted.
 	ConvertedDate NullableTime `json:"converted_date,omitempty"`
+	// The contact of the converted lead.
 	ConvertedContact NullableString `json:"converted_contact,omitempty"`
+	// The account of the converted lead.
 	ConvertedAccount NullableString `json:"converted_account,omitempty"`
 	IntegrationParams map[string]interface{} `json:"integration_params,omitempty"`
 	LinkedAccountParams map[string]interface{} `json:"linked_account_params,omitempty"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	RemoteFields *[]RemoteFieldRequest `json:"remote_fields,omitempty"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewLeadRequest instantiates a new LeadRequest object
@@ -60,48 +61,6 @@ func NewLeadRequest() *LeadRequest {
 func NewLeadRequestWithDefaults() *LeadRequest {
 	this := LeadRequest{}
 	return &this
-}
-
-// GetRemoteId returns the RemoteId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *LeadRequest) GetRemoteId() string {
-	if o == nil || o.RemoteId.Get() == nil {
-		var ret string
-		return ret
-	}
-	return *o.RemoteId.Get()
-}
-
-// GetRemoteIdOk returns a tuple with the RemoteId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *LeadRequest) GetRemoteIdOk() (*string, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return o.RemoteId.Get(), o.RemoteId.IsSet()
-}
-
-// HasRemoteId returns a boolean if a field has been set.
-func (o *LeadRequest) HasRemoteId() bool {
-	if o != nil && o.RemoteId.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetRemoteId gets a reference to the given NullableString and assigns it to the RemoteId field.
-func (o *LeadRequest) SetRemoteId(v string) {
-	o.RemoteId.Set(&v)
-}
-// SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-func (o *LeadRequest) SetRemoteIdNil() {
-	o.RemoteId.Set(nil)
-}
-
-// UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
-func (o *LeadRequest) UnsetRemoteId() {
-	o.RemoteId.Unset()
 }
 
 // GetOwner returns the Owner field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -356,88 +315,100 @@ func (o *LeadRequest) UnsetLastName() {
 	o.LastName.Unset()
 }
 
-// GetRemoteUpdatedAt returns the RemoteUpdatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *LeadRequest) GetRemoteUpdatedAt() time.Time {
-	if o == nil || o.RemoteUpdatedAt.Get() == nil {
-		var ret time.Time
+// GetAddresses returns the Addresses field value if set, zero value otherwise.
+func (o *LeadRequest) GetAddresses() []AddressRequest {
+	if o == nil || o.Addresses == nil {
+		var ret []AddressRequest
 		return ret
 	}
-	return *o.RemoteUpdatedAt.Get()
+	return *o.Addresses
 }
 
-// GetRemoteUpdatedAtOk returns a tuple with the RemoteUpdatedAt field value if set, nil otherwise
+// GetAddressesOk returns a tuple with the Addresses field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *LeadRequest) GetRemoteUpdatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+func (o *LeadRequest) GetAddressesOk() (*[]AddressRequest, bool) {
+	if o == nil || o.Addresses == nil {
 		return nil, false
 	}
-	return o.RemoteUpdatedAt.Get(), o.RemoteUpdatedAt.IsSet()
+	return o.Addresses, true
 }
 
-// HasRemoteUpdatedAt returns a boolean if a field has been set.
-func (o *LeadRequest) HasRemoteUpdatedAt() bool {
-	if o != nil && o.RemoteUpdatedAt.IsSet() {
+// HasAddresses returns a boolean if a field has been set.
+func (o *LeadRequest) HasAddresses() bool {
+	if o != nil && o.Addresses != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetRemoteUpdatedAt gets a reference to the given NullableTime and assigns it to the RemoteUpdatedAt field.
-func (o *LeadRequest) SetRemoteUpdatedAt(v time.Time) {
-	o.RemoteUpdatedAt.Set(&v)
-}
-// SetRemoteUpdatedAtNil sets the value for RemoteUpdatedAt to be an explicit nil
-func (o *LeadRequest) SetRemoteUpdatedAtNil() {
-	o.RemoteUpdatedAt.Set(nil)
+// SetAddresses gets a reference to the given []AddressRequest and assigns it to the Addresses field.
+func (o *LeadRequest) SetAddresses(v []AddressRequest) {
+	o.Addresses = &v
 }
 
-// UnsetRemoteUpdatedAt ensures that no value is present for RemoteUpdatedAt, not even an explicit nil
-func (o *LeadRequest) UnsetRemoteUpdatedAt() {
-	o.RemoteUpdatedAt.Unset()
-}
-
-// GetRemoteCreatedAt returns the RemoteCreatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *LeadRequest) GetRemoteCreatedAt() time.Time {
-	if o == nil || o.RemoteCreatedAt.Get() == nil {
-		var ret time.Time
+// GetEmailAddresses returns the EmailAddresses field value if set, zero value otherwise.
+func (o *LeadRequest) GetEmailAddresses() []EmailAddressRequest {
+	if o == nil || o.EmailAddresses == nil {
+		var ret []EmailAddressRequest
 		return ret
 	}
-	return *o.RemoteCreatedAt.Get()
+	return *o.EmailAddresses
 }
 
-// GetRemoteCreatedAtOk returns a tuple with the RemoteCreatedAt field value if set, nil otherwise
+// GetEmailAddressesOk returns a tuple with the EmailAddresses field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *LeadRequest) GetRemoteCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+func (o *LeadRequest) GetEmailAddressesOk() (*[]EmailAddressRequest, bool) {
+	if o == nil || o.EmailAddresses == nil {
 		return nil, false
 	}
-	return o.RemoteCreatedAt.Get(), o.RemoteCreatedAt.IsSet()
+	return o.EmailAddresses, true
 }
 
-// HasRemoteCreatedAt returns a boolean if a field has been set.
-func (o *LeadRequest) HasRemoteCreatedAt() bool {
-	if o != nil && o.RemoteCreatedAt.IsSet() {
+// HasEmailAddresses returns a boolean if a field has been set.
+func (o *LeadRequest) HasEmailAddresses() bool {
+	if o != nil && o.EmailAddresses != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetRemoteCreatedAt gets a reference to the given NullableTime and assigns it to the RemoteCreatedAt field.
-func (o *LeadRequest) SetRemoteCreatedAt(v time.Time) {
-	o.RemoteCreatedAt.Set(&v)
-}
-// SetRemoteCreatedAtNil sets the value for RemoteCreatedAt to be an explicit nil
-func (o *LeadRequest) SetRemoteCreatedAtNil() {
-	o.RemoteCreatedAt.Set(nil)
+// SetEmailAddresses gets a reference to the given []EmailAddressRequest and assigns it to the EmailAddresses field.
+func (o *LeadRequest) SetEmailAddresses(v []EmailAddressRequest) {
+	o.EmailAddresses = &v
 }
 
-// UnsetRemoteCreatedAt ensures that no value is present for RemoteCreatedAt, not even an explicit nil
-func (o *LeadRequest) UnsetRemoteCreatedAt() {
-	o.RemoteCreatedAt.Unset()
+// GetPhoneNumbers returns the PhoneNumbers field value if set, zero value otherwise.
+func (o *LeadRequest) GetPhoneNumbers() []PhoneNumberRequest {
+	if o == nil || o.PhoneNumbers == nil {
+		var ret []PhoneNumberRequest
+		return ret
+	}
+	return *o.PhoneNumbers
+}
+
+// GetPhoneNumbersOk returns a tuple with the PhoneNumbers field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LeadRequest) GetPhoneNumbersOk() (*[]PhoneNumberRequest, bool) {
+	if o == nil || o.PhoneNumbers == nil {
+		return nil, false
+	}
+	return o.PhoneNumbers, true
+}
+
+// HasPhoneNumbers returns a boolean if a field has been set.
+func (o *LeadRequest) HasPhoneNumbers() bool {
+	if o != nil && o.PhoneNumbers != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetPhoneNumbers gets a reference to the given []PhoneNumberRequest and assigns it to the PhoneNumbers field.
+func (o *LeadRequest) SetPhoneNumbers(v []PhoneNumberRequest) {
+	o.PhoneNumbers = &v
 }
 
 // GetConvertedDate returns the ConvertedDate field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -632,11 +603,40 @@ func (o *LeadRequest) SetLinkedAccountParams(v map[string]interface{}) {
 	o.LinkedAccountParams = v
 }
 
+// GetRemoteFields returns the RemoteFields field value if set, zero value otherwise.
+func (o *LeadRequest) GetRemoteFields() []RemoteFieldRequest {
+	if o == nil || o.RemoteFields == nil {
+		var ret []RemoteFieldRequest
+		return ret
+	}
+	return *o.RemoteFields
+}
+
+// GetRemoteFieldsOk returns a tuple with the RemoteFields field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LeadRequest) GetRemoteFieldsOk() (*[]RemoteFieldRequest, bool) {
+	if o == nil || o.RemoteFields == nil {
+		return nil, false
+	}
+	return o.RemoteFields, true
+}
+
+// HasRemoteFields returns a boolean if a field has been set.
+func (o *LeadRequest) HasRemoteFields() bool {
+	if o != nil && o.RemoteFields != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetRemoteFields gets a reference to the given []RemoteFieldRequest and assigns it to the RemoteFields field.
+func (o *LeadRequest) SetRemoteFields(v []RemoteFieldRequest) {
+	o.RemoteFields = &v
+}
+
 func (o LeadRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.RemoteId.IsSet() {
-		toSerialize["remote_id"] = o.RemoteId.Get()
-	}
 	if o.Owner.IsSet() {
 		toSerialize["owner"] = o.Owner.Get()
 	}
@@ -655,11 +655,14 @@ func (o LeadRequest) MarshalJSON() ([]byte, error) {
 	if o.LastName.IsSet() {
 		toSerialize["last_name"] = o.LastName.Get()
 	}
-	if o.RemoteUpdatedAt.IsSet() {
-		toSerialize["remote_updated_at"] = o.RemoteUpdatedAt.Get()
+	if o.Addresses != nil {
+		toSerialize["addresses"] = o.Addresses
 	}
-	if o.RemoteCreatedAt.IsSet() {
-		toSerialize["remote_created_at"] = o.RemoteCreatedAt.Get()
+	if o.EmailAddresses != nil {
+		toSerialize["email_addresses"] = o.EmailAddresses
+	}
+	if o.PhoneNumbers != nil {
+		toSerialize["phone_numbers"] = o.PhoneNumbers
 	}
 	if o.ConvertedDate.IsSet() {
 		toSerialize["converted_date"] = o.ConvertedDate.Get()
@@ -675,6 +678,9 @@ func (o LeadRequest) MarshalJSON() ([]byte, error) {
 	}
 	if o.LinkedAccountParams != nil {
 		toSerialize["linked_account_params"] = o.LinkedAccountParams
+	}
+	if o.RemoteFields != nil {
+		toSerialize["remote_fields"] = o.RemoteFields
 	}
 	return json.Marshal(toSerialize)
 }

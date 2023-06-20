@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-// SyncStatusStatusEnum the model 'SyncStatusStatusEnum'
+// SyncStatusStatusEnum * `SYNCING` - SYNCING * `DONE` - DONE * `FAILED` - FAILED * `DISABLED` - DISABLED * `PAUSED` - PAUSED * `PARTIALLY_SYNCED` - PARTIALLY_SYNCED
 type SyncStatusStatusEnum string
 
 // apologies but this is to get around an import error
@@ -29,6 +29,8 @@ const (
 	SYNCSTATUSSTATUSENUM_DONE SyncStatusStatusEnum = "DONE"
 	SYNCSTATUSSTATUSENUM_FAILED SyncStatusStatusEnum = "FAILED"
 	SYNCSTATUSSTATUSENUM_DISABLED SyncStatusStatusEnum = "DISABLED"
+	SYNCSTATUSSTATUSENUM_PAUSED SyncStatusStatusEnum = "PAUSED"
+	SYNCSTATUSSTATUSENUM_PARTIALLY_SYNCED SyncStatusStatusEnum = "PARTIALLY_SYNCED"
 )
 
 var allowedSyncStatusStatusEnumEnumValues = []SyncStatusStatusEnum{
@@ -36,6 +38,8 @@ var allowedSyncStatusStatusEnumEnumValues = []SyncStatusStatusEnum{
 	"DONE",
 	"FAILED",
 	"DISABLED",
+	"PAUSED",
+	"PARTIALLY_SYNCED",
 }
 
 func (v *SyncStatusStatusEnum) UnmarshalJSON(src []byte) error {

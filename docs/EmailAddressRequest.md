@@ -6,6 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EmailAddress** | Pointer to **NullableString** | The email address. | [optional] 
 **EmailAddressType** | Pointer to **NullableString** | The email address&#39;s type. | [optional] 
+**IntegrationParams** | Pointer to **map[string]interface{}** |  | [optional] 
+**LinkedAccountParams** | Pointer to **map[string]interface{}** |  | [optional] 
 
 ## Methods
 
@@ -96,6 +98,76 @@ HasEmailAddressType returns a boolean if a field has been set.
 `func (o *EmailAddressRequest) UnsetEmailAddressType()`
 
 UnsetEmailAddressType ensures that no value is present for EmailAddressType, not even an explicit nil
+### GetIntegrationParams
+
+`func (o *EmailAddressRequest) GetIntegrationParams() map[string]interface{}`
+
+GetIntegrationParams returns the IntegrationParams field if non-nil, zero value otherwise.
+
+### GetIntegrationParamsOk
+
+`func (o *EmailAddressRequest) GetIntegrationParamsOk() (*map[string]interface{}, bool)`
+
+GetIntegrationParamsOk returns a tuple with the IntegrationParams field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIntegrationParams
+
+`func (o *EmailAddressRequest) SetIntegrationParams(v map[string]interface{})`
+
+SetIntegrationParams sets IntegrationParams field to given value.
+
+### HasIntegrationParams
+
+`func (o *EmailAddressRequest) HasIntegrationParams() bool`
+
+HasIntegrationParams returns a boolean if a field has been set.
+
+### SetIntegrationParamsNil
+
+`func (o *EmailAddressRequest) SetIntegrationParamsNil(b bool)`
+
+ SetIntegrationParamsNil sets the value for IntegrationParams to be an explicit nil
+
+### UnsetIntegrationParams
+`func (o *EmailAddressRequest) UnsetIntegrationParams()`
+
+UnsetIntegrationParams ensures that no value is present for IntegrationParams, not even an explicit nil
+### GetLinkedAccountParams
+
+`func (o *EmailAddressRequest) GetLinkedAccountParams() map[string]interface{}`
+
+GetLinkedAccountParams returns the LinkedAccountParams field if non-nil, zero value otherwise.
+
+### GetLinkedAccountParamsOk
+
+`func (o *EmailAddressRequest) GetLinkedAccountParamsOk() (*map[string]interface{}, bool)`
+
+GetLinkedAccountParamsOk returns a tuple with the LinkedAccountParams field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLinkedAccountParams
+
+`func (o *EmailAddressRequest) SetLinkedAccountParams(v map[string]interface{})`
+
+SetLinkedAccountParams sets LinkedAccountParams field to given value.
+
+### HasLinkedAccountParams
+
+`func (o *EmailAddressRequest) HasLinkedAccountParams() bool`
+
+HasLinkedAccountParams returns a boolean if a field has been set.
+
+### SetLinkedAccountParamsNil
+
+`func (o *EmailAddressRequest) SetLinkedAccountParamsNil(b bool)`
+
+ SetLinkedAccountParamsNil sets the value for LinkedAccountParams to be an explicit nil
+
+### UnsetLinkedAccountParams
+`func (o *EmailAddressRequest) UnsetLinkedAccountParams()`
+
+UnsetLinkedAccountParams ensures that no value is present for LinkedAccountParams, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EmailAddress** | Pointer to **NullableString** | The email address. | [optional] 
 **EmailAddressType** | Pointer to **NullableString** | The email address&#39;s type. | [optional] 
+**ModifiedAt** | Pointer to **time.Time** | This is the datetime that this object was last updated by Merge | [optional] [readonly] 
 
 ## Methods
 
@@ -96,6 +97,31 @@ HasEmailAddressType returns a boolean if a field has been set.
 `func (o *EmailAddress) UnsetEmailAddressType()`
 
 UnsetEmailAddressType ensures that no value is present for EmailAddressType, not even an explicit nil
+### GetModifiedAt
+
+`func (o *EmailAddress) GetModifiedAt() time.Time`
+
+GetModifiedAt returns the ModifiedAt field if non-nil, zero value otherwise.
+
+### GetModifiedAtOk
+
+`func (o *EmailAddress) GetModifiedAtOk() (*time.Time, bool)`
+
+GetModifiedAtOk returns a tuple with the ModifiedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetModifiedAt
+
+`func (o *EmailAddress) SetModifiedAt(v time.Time)`
+
+SetModifiedAt sets ModifiedAt field to given value.
+
+### HasModifiedAt
+
+`func (o *EmailAddress) HasModifiedAt() bool`
+
+HasModifiedAt returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

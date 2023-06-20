@@ -18,8 +18,8 @@ import (
 // NoteEndpointRequest struct for NoteEndpointRequest
 type NoteEndpointRequest struct {
 	Model NoteRequest `json:"model"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewNoteEndpointRequest instantiates a new NoteEndpointRequest object

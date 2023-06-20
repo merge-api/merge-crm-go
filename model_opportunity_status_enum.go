@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-// OpportunityStatusEnum the model 'OpportunityStatusEnum'
+// OpportunityStatusEnum * `OPEN` - OPEN * `WON` - WON * `LOST` - LOST
 type OpportunityStatusEnum string
 
 // apologies but this is to get around an import error

@@ -13,6 +13,7 @@ package merge_crm_client
 
 import (
 	"encoding/json"
+	"time"
 )
 
 // EmailAddress # The EmailAddress Object ### Description The `EmailAddress` object is used to represent an entity's email address. ### Usage Example Fetch from the `GET Contact` endpoint and view their email addresses.
@@ -21,8 +22,10 @@ type EmailAddress struct {
 	EmailAddress NullableString `json:"email_address,omitempty"`
 	// The email address's type.
 	EmailAddressType NullableString `json:"email_address_type,omitempty"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	// This is the datetime that this object was last updated by Merge
+	ModifiedAt *time.Time `json:"modified_at,omitempty"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewEmailAddress instantiates a new EmailAddress object
@@ -126,6 +129,38 @@ func (o *EmailAddress) UnsetEmailAddressType() {
 	o.EmailAddressType.Unset()
 }
 
+// GetModifiedAt returns the ModifiedAt field value if set, zero value otherwise.
+func (o *EmailAddress) GetModifiedAt() time.Time {
+	if o == nil || o.ModifiedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.ModifiedAt
+}
+
+// GetModifiedAtOk returns a tuple with the ModifiedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EmailAddress) GetModifiedAtOk() (*time.Time, bool) {
+	if o == nil || o.ModifiedAt == nil {
+		return nil, false
+	}
+	return o.ModifiedAt, true
+}
+
+// HasModifiedAt returns a boolean if a field has been set.
+func (o *EmailAddress) HasModifiedAt() bool {
+	if o != nil && o.ModifiedAt != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetModifiedAt gets a reference to the given time.Time and assigns it to the ModifiedAt field.
+func (o *EmailAddress) SetModifiedAt(v time.Time) {
+	o.ModifiedAt = &v
+}
+
 func (o EmailAddress) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.EmailAddress.IsSet() {
@@ -133,6 +168,9 @@ func (o EmailAddress) MarshalJSON() ([]byte, error) {
 	}
 	if o.EmailAddressType.IsSet() {
 		toSerialize["email_address_type"] = o.EmailAddressType.Get()
+	}
+	if o.ModifiedAt != nil {
+		toSerialize["modified_at"] = o.ModifiedAt
 	}
 	return json.Marshal(toSerialize)
 }

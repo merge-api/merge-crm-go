@@ -18,8 +18,8 @@ import (
 // OpportunityEndpointRequest struct for OpportunityEndpointRequest
 type OpportunityEndpointRequest struct {
 	Model OpportunityRequest `json:"model"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewOpportunityEndpointRequest instantiates a new OpportunityEndpointRequest object

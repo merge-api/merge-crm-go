@@ -16,31 +16,31 @@ import (
 	"time"
 )
 
-// OpportunityRequest # The Opportunity Object ### Description The `Opportunity` object is used to represent an opportunity in the remote system. ### Usage Example TODO
+// OpportunityRequest # The Opportunity Object ### Description The `Opportunity` object is used to represent a deal opportunity in a CRM system. ### Usage Example TODO
 type OpportunityRequest struct {
-	// The third-party API ID of the matching object.
-	RemoteId NullableString `json:"remote_id,omitempty"`
 	// The opportunity's name.
 	Name NullableString `json:"name,omitempty"`
 	// The opportunity's description.
 	Description NullableString `json:"description,omitempty"`
 	// The opportunity's amount.
 	Amount NullableInt32 `json:"amount,omitempty"`
+	// The opportunity's owner.
 	Owner NullableString `json:"owner,omitempty"`
+	// The account of the opportunity.
 	Account NullableString `json:"account,omitempty"`
+	// The stage of the opportunity.
 	Stage NullableString `json:"stage,omitempty"`
-	// The opportunity's status.
+	// The opportunity's status.  * `OPEN` - OPEN * `WON` - WON * `LOST` - LOST
 	Status NullableOpportunityStatusEnum `json:"status,omitempty"`
 	// When the opportunity's last activity occurred.
 	LastActivityAt NullableTime `json:"last_activity_at,omitempty"`
 	// When the opportunity was closed.
 	CloseDate NullableTime `json:"close_date,omitempty"`
-	// When the third party's opportunity was created.
-	RemoteCreatedAt NullableTime `json:"remote_created_at,omitempty"`
 	IntegrationParams map[string]interface{} `json:"integration_params,omitempty"`
 	LinkedAccountParams map[string]interface{} `json:"linked_account_params,omitempty"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	RemoteFields *[]RemoteFieldRequest `json:"remote_fields,omitempty"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewOpportunityRequest instantiates a new OpportunityRequest object
@@ -58,48 +58,6 @@ func NewOpportunityRequest() *OpportunityRequest {
 func NewOpportunityRequestWithDefaults() *OpportunityRequest {
 	this := OpportunityRequest{}
 	return &this
-}
-
-// GetRemoteId returns the RemoteId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *OpportunityRequest) GetRemoteId() string {
-	if o == nil || o.RemoteId.Get() == nil {
-		var ret string
-		return ret
-	}
-	return *o.RemoteId.Get()
-}
-
-// GetRemoteIdOk returns a tuple with the RemoteId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *OpportunityRequest) GetRemoteIdOk() (*string, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return o.RemoteId.Get(), o.RemoteId.IsSet()
-}
-
-// HasRemoteId returns a boolean if a field has been set.
-func (o *OpportunityRequest) HasRemoteId() bool {
-	if o != nil && o.RemoteId.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetRemoteId gets a reference to the given NullableString and assigns it to the RemoteId field.
-func (o *OpportunityRequest) SetRemoteId(v string) {
-	o.RemoteId.Set(&v)
-}
-// SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-func (o *OpportunityRequest) SetRemoteIdNil() {
-	o.RemoteId.Set(nil)
-}
-
-// UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
-func (o *OpportunityRequest) UnsetRemoteId() {
-	o.RemoteId.Unset()
 }
 
 // GetName returns the Name field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -480,48 +438,6 @@ func (o *OpportunityRequest) UnsetCloseDate() {
 	o.CloseDate.Unset()
 }
 
-// GetRemoteCreatedAt returns the RemoteCreatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *OpportunityRequest) GetRemoteCreatedAt() time.Time {
-	if o == nil || o.RemoteCreatedAt.Get() == nil {
-		var ret time.Time
-		return ret
-	}
-	return *o.RemoteCreatedAt.Get()
-}
-
-// GetRemoteCreatedAtOk returns a tuple with the RemoteCreatedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *OpportunityRequest) GetRemoteCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return o.RemoteCreatedAt.Get(), o.RemoteCreatedAt.IsSet()
-}
-
-// HasRemoteCreatedAt returns a boolean if a field has been set.
-func (o *OpportunityRequest) HasRemoteCreatedAt() bool {
-	if o != nil && o.RemoteCreatedAt.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetRemoteCreatedAt gets a reference to the given NullableTime and assigns it to the RemoteCreatedAt field.
-func (o *OpportunityRequest) SetRemoteCreatedAt(v time.Time) {
-	o.RemoteCreatedAt.Set(&v)
-}
-// SetRemoteCreatedAtNil sets the value for RemoteCreatedAt to be an explicit nil
-func (o *OpportunityRequest) SetRemoteCreatedAtNil() {
-	o.RemoteCreatedAt.Set(nil)
-}
-
-// UnsetRemoteCreatedAt ensures that no value is present for RemoteCreatedAt, not even an explicit nil
-func (o *OpportunityRequest) UnsetRemoteCreatedAt() {
-	o.RemoteCreatedAt.Unset()
-}
-
 // GetIntegrationParams returns the IntegrationParams field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *OpportunityRequest) GetIntegrationParams() map[string]interface{} {
 	if o == nil  {
@@ -588,11 +504,40 @@ func (o *OpportunityRequest) SetLinkedAccountParams(v map[string]interface{}) {
 	o.LinkedAccountParams = v
 }
 
+// GetRemoteFields returns the RemoteFields field value if set, zero value otherwise.
+func (o *OpportunityRequest) GetRemoteFields() []RemoteFieldRequest {
+	if o == nil || o.RemoteFields == nil {
+		var ret []RemoteFieldRequest
+		return ret
+	}
+	return *o.RemoteFields
+}
+
+// GetRemoteFieldsOk returns a tuple with the RemoteFields field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpportunityRequest) GetRemoteFieldsOk() (*[]RemoteFieldRequest, bool) {
+	if o == nil || o.RemoteFields == nil {
+		return nil, false
+	}
+	return o.RemoteFields, true
+}
+
+// HasRemoteFields returns a boolean if a field has been set.
+func (o *OpportunityRequest) HasRemoteFields() bool {
+	if o != nil && o.RemoteFields != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetRemoteFields gets a reference to the given []RemoteFieldRequest and assigns it to the RemoteFields field.
+func (o *OpportunityRequest) SetRemoteFields(v []RemoteFieldRequest) {
+	o.RemoteFields = &v
+}
+
 func (o OpportunityRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.RemoteId.IsSet() {
-		toSerialize["remote_id"] = o.RemoteId.Get()
-	}
 	if o.Name.IsSet() {
 		toSerialize["name"] = o.Name.Get()
 	}
@@ -620,14 +565,14 @@ func (o OpportunityRequest) MarshalJSON() ([]byte, error) {
 	if o.CloseDate.IsSet() {
 		toSerialize["close_date"] = o.CloseDate.Get()
 	}
-	if o.RemoteCreatedAt.IsSet() {
-		toSerialize["remote_created_at"] = o.RemoteCreatedAt.Get()
-	}
 	if o.IntegrationParams != nil {
 		toSerialize["integration_params"] = o.IntegrationParams
 	}
 	if o.LinkedAccountParams != nil {
 		toSerialize["linked_account_params"] = o.LinkedAccountParams
+	}
+	if o.RemoteFields != nil {
+		toSerialize["remote_fields"] = o.RemoteFields
 	}
 	return json.Marshal(toSerialize)
 }

@@ -18,8 +18,8 @@ import (
 // LeadEndpointRequest struct for LeadEndpointRequest
 type LeadEndpointRequest struct {
 	Model LeadRequest `json:"model"`
-    // raw json response by property name
-    ResponseRaw map[string]json.RawMessage `json:"-"`
+	// raw json response by property name
+	ResponseRaw map[string]json.RawMessage `json:"-"`
 }
 
 // NewLeadEndpointRequest instantiates a new LeadEndpointRequest object

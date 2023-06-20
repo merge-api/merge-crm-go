@@ -189,6 +189,7 @@ type ApiAccountsListRequest struct {
 	cursor *string
 	includeDeletedData *bool
 	includeRemoteData *bool
+	includeRemoteFields *bool
 	modifiedAfter *time.Time
 	modifiedBefore *time.Time
 	ownerId *string
@@ -218,6 +219,10 @@ func (r ApiAccountsListRequest) IncludeDeletedData(includeDeletedData bool) ApiA
 }
 func (r ApiAccountsListRequest) IncludeRemoteData(includeRemoteData bool) ApiAccountsListRequest {
 	r.includeRemoteData = &includeRemoteData
+	return r
+}
+func (r ApiAccountsListRequest) IncludeRemoteFields(includeRemoteFields bool) ApiAccountsListRequest {
+	r.includeRemoteFields = &includeRemoteFields
 	return r
 }
 func (r ApiAccountsListRequest) ModifiedAfter(modifiedAfter time.Time) ApiAccountsListRequest {
@@ -301,6 +306,9 @@ func (a *AccountsApiService) AccountsListExecute(r ApiAccountsListRequest) (Pagi
 	if r.includeRemoteData != nil {
 		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
 	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
+	}
 	if r.modifiedAfter != nil {
 		localVarQueryParams.Add("modified_after", parameterToString(*r.modifiedAfter, ""))
 	}
@@ -316,6 +324,135 @@ func (a *AccountsApiService) AccountsListExecute(r ApiAccountsListRequest) (Pagi
 	if r.remoteId != nil {
 		localVarQueryParams.Add("remote_id", parameterToString(*r.remoteId, ""))
 	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Account-Token"] = parameterToString(*r.xAccountToken, "")
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["tokenAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiAccountsMetaPatchRetrieveRequest struct {
+	ctx _context.Context
+	ApiService *AccountsApiService
+	xAccountToken *string
+	id string
+}
+
+func (r ApiAccountsMetaPatchRetrieveRequest) XAccountToken(xAccountToken string) ApiAccountsMetaPatchRetrieveRequest {
+	r.xAccountToken = &xAccountToken
+	return r
+}
+
+func (r ApiAccountsMetaPatchRetrieveRequest) Execute() (MetaResponse, *_nethttp.Response, error) {
+	return r.ApiService.AccountsMetaPatchRetrieveExecute(r)
+}
+
+/*
+ * AccountsMetaPatchRetrieve Method for AccountsMetaPatchRetrieve
+ * Returns metadata for `CRMAccount` PATCHs.
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id
+ * @return ApiAccountsMetaPatchRetrieveRequest
+ */
+func (a *AccountsApiService) AccountsMetaPatchRetrieve(ctx _context.Context, id string) ApiAccountsMetaPatchRetrieveRequest {
+	return ApiAccountsMetaPatchRetrieveRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return MetaResponse
+ */
+func (a *AccountsApiService) AccountsMetaPatchRetrieveExecute(r ApiAccountsMetaPatchRetrieveRequest) (MetaResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  MetaResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AccountsApiService.AccountsMetaPatchRetrieve")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/accounts/meta/patch/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.xAccountToken == nil {
+		return localVarReturnValue, nil, reportError("xAccountToken is required and must be specified")
+	}
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -510,12 +647,333 @@ func (a *AccountsApiService) AccountsMetaPostRetrieveExecute(r ApiAccountsMetaPo
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiAccountsPartialUpdateRequest struct {
+	ctx _context.Context
+	ApiService *AccountsApiService
+	xAccountToken *string
+	id string
+	patchedCRMAccountEndpointRequest *PatchedCRMAccountEndpointRequest
+	isDebugMode *bool
+	runAsync *bool
+}
+
+func (r ApiAccountsPartialUpdateRequest) XAccountToken(xAccountToken string) ApiAccountsPartialUpdateRequest {
+	r.xAccountToken = &xAccountToken
+	return r
+}
+func (r ApiAccountsPartialUpdateRequest) PatchedCRMAccountEndpointRequest(patchedCRMAccountEndpointRequest PatchedCRMAccountEndpointRequest) ApiAccountsPartialUpdateRequest {
+	r.patchedCRMAccountEndpointRequest = &patchedCRMAccountEndpointRequest
+	return r
+}
+func (r ApiAccountsPartialUpdateRequest) IsDebugMode(isDebugMode bool) ApiAccountsPartialUpdateRequest {
+	r.isDebugMode = &isDebugMode
+	return r
+}
+func (r ApiAccountsPartialUpdateRequest) RunAsync(runAsync bool) ApiAccountsPartialUpdateRequest {
+	r.runAsync = &runAsync
+	return r
+}
+
+func (r ApiAccountsPartialUpdateRequest) Execute() (CRMAccountResponse, *_nethttp.Response, error) {
+	return r.ApiService.AccountsPartialUpdateExecute(r)
+}
+
+/*
+ * AccountsPartialUpdate Method for AccountsPartialUpdate
+ * Updates an `Account` object with the given `id`.
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param id
+ * @return ApiAccountsPartialUpdateRequest
+ */
+func (a *AccountsApiService) AccountsPartialUpdate(ctx _context.Context, id string) ApiAccountsPartialUpdateRequest {
+	return ApiAccountsPartialUpdateRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return CRMAccountResponse
+ */
+func (a *AccountsApiService) AccountsPartialUpdateExecute(r ApiAccountsPartialUpdateRequest) (CRMAccountResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  CRMAccountResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AccountsApiService.AccountsPartialUpdate")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/accounts/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(parameterToString(r.id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.xAccountToken == nil {
+		return localVarReturnValue, nil, reportError("xAccountToken is required and must be specified")
+	}
+	if r.patchedCRMAccountEndpointRequest == nil {
+		return localVarReturnValue, nil, reportError("patchedCRMAccountEndpointRequest is required and must be specified")
+	}
+
+	if r.isDebugMode != nil {
+		localVarQueryParams.Add("is_debug_mode", parameterToString(*r.isDebugMode, ""))
+	}
+	if r.runAsync != nil {
+		localVarQueryParams.Add("run_async", parameterToString(*r.runAsync, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json", "application/x-www-form-urlencoded", "multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Account-Token"] = parameterToString(*r.xAccountToken, "")
+	// body params
+	localVarPostBody = r.patchedCRMAccountEndpointRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["tokenAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiAccountsRemoteFieldClassesListRequest struct {
+	ctx _context.Context
+	ApiService *AccountsApiService
+	xAccountToken *string
+	cursor *string
+	includeDeletedData *bool
+	includeRemoteData *bool
+	includeRemoteFields *bool
+	pageSize *int32
+}
+
+func (r ApiAccountsRemoteFieldClassesListRequest) XAccountToken(xAccountToken string) ApiAccountsRemoteFieldClassesListRequest {
+	r.xAccountToken = &xAccountToken
+	return r
+}
+func (r ApiAccountsRemoteFieldClassesListRequest) Cursor(cursor string) ApiAccountsRemoteFieldClassesListRequest {
+	r.cursor = &cursor
+	return r
+}
+func (r ApiAccountsRemoteFieldClassesListRequest) IncludeDeletedData(includeDeletedData bool) ApiAccountsRemoteFieldClassesListRequest {
+	r.includeDeletedData = &includeDeletedData
+	return r
+}
+func (r ApiAccountsRemoteFieldClassesListRequest) IncludeRemoteData(includeRemoteData bool) ApiAccountsRemoteFieldClassesListRequest {
+	r.includeRemoteData = &includeRemoteData
+	return r
+}
+func (r ApiAccountsRemoteFieldClassesListRequest) IncludeRemoteFields(includeRemoteFields bool) ApiAccountsRemoteFieldClassesListRequest {
+	r.includeRemoteFields = &includeRemoteFields
+	return r
+}
+func (r ApiAccountsRemoteFieldClassesListRequest) PageSize(pageSize int32) ApiAccountsRemoteFieldClassesListRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+func (r ApiAccountsRemoteFieldClassesListRequest) Execute() (PaginatedRemoteFieldClassList, *_nethttp.Response, error) {
+	return r.ApiService.AccountsRemoteFieldClassesListExecute(r)
+}
+
+/*
+ * AccountsRemoteFieldClassesList Method for AccountsRemoteFieldClassesList
+ * Returns a list of `RemoteFieldClass` objects.
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @return ApiAccountsRemoteFieldClassesListRequest
+ */
+func (a *AccountsApiService) AccountsRemoteFieldClassesList(ctx _context.Context) ApiAccountsRemoteFieldClassesListRequest {
+	return ApiAccountsRemoteFieldClassesListRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return PaginatedRemoteFieldClassList
+ */
+func (a *AccountsApiService) AccountsRemoteFieldClassesListExecute(r ApiAccountsRemoteFieldClassesListRequest) (PaginatedRemoteFieldClassList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  PaginatedRemoteFieldClassList
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AccountsApiService.AccountsRemoteFieldClassesList")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/accounts/remote-field-classes"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.xAccountToken == nil {
+		return localVarReturnValue, nil, reportError("xAccountToken is required and must be specified")
+	}
+
+	if r.cursor != nil {
+		localVarQueryParams.Add("cursor", parameterToString(*r.cursor, ""))
+	}
+	if r.includeDeletedData != nil {
+		localVarQueryParams.Add("include_deleted_data", parameterToString(*r.includeDeletedData, ""))
+	}
+	if r.includeRemoteData != nil {
+		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
+	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
+	}
+	if r.pageSize != nil {
+		localVarQueryParams.Add("page_size", parameterToString(*r.pageSize, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Account-Token"] = parameterToString(*r.xAccountToken, "")
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["tokenAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiAccountsRetrieveRequest struct {
 	ctx _context.Context
 	ApiService *AccountsApiService
 	xAccountToken *string
 	id string
 	includeRemoteData *bool
+	includeRemoteFields *bool
 }
 
 func (r ApiAccountsRetrieveRequest) XAccountToken(xAccountToken string) ApiAccountsRetrieveRequest {
@@ -524,6 +982,10 @@ func (r ApiAccountsRetrieveRequest) XAccountToken(xAccountToken string) ApiAccou
 }
 func (r ApiAccountsRetrieveRequest) IncludeRemoteData(includeRemoteData bool) ApiAccountsRetrieveRequest {
 	r.includeRemoteData = &includeRemoteData
+	return r
+}
+func (r ApiAccountsRetrieveRequest) IncludeRemoteFields(includeRemoteFields bool) ApiAccountsRetrieveRequest {
+	r.includeRemoteFields = &includeRemoteFields
 	return r
 }
 
@@ -577,6 +1039,9 @@ func (a *AccountsApiService) AccountsRetrieveExecute(r ApiAccountsRetrieveReques
 
 	if r.includeRemoteData != nil {
 		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
+	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

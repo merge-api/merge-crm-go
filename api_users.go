@@ -29,6 +29,134 @@ var (
 // UsersApiService UsersApi service
 type UsersApiService service
 
+type ApiUsersIgnoreCreateRequest struct {
+	ctx _context.Context
+	ApiService *UsersApiService
+	xAccountToken *string
+	modelId string
+	ignoreCommonModelRequest *IgnoreCommonModelRequest
+}
+
+func (r ApiUsersIgnoreCreateRequest) XAccountToken(xAccountToken string) ApiUsersIgnoreCreateRequest {
+	r.xAccountToken = &xAccountToken
+	return r
+}
+func (r ApiUsersIgnoreCreateRequest) IgnoreCommonModelRequest(ignoreCommonModelRequest IgnoreCommonModelRequest) ApiUsersIgnoreCreateRequest {
+	r.ignoreCommonModelRequest = &ignoreCommonModelRequest
+	return r
+}
+
+func (r ApiUsersIgnoreCreateRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.UsersIgnoreCreateExecute(r)
+}
+
+/*
+ * UsersIgnoreCreate Method for UsersIgnoreCreate
+ * Ignores a specific row based on the `model_id` in the url. These records will have their properties set to null, and will not be updated in future syncs. The "reason" and "message" fields in the request body will be stored for audit purposes.
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param modelId
+ * @return ApiUsersIgnoreCreateRequest
+ */
+func (a *UsersApiService) UsersIgnoreCreate(ctx _context.Context, modelId string) ApiUsersIgnoreCreateRequest {
+	return ApiUsersIgnoreCreateRequest{
+		ApiService: a,
+		ctx: ctx,
+		modelId: modelId,
+	}
+}
+
+/*
+ * Execute executes the request
+ */
+func (a *UsersApiService) UsersIgnoreCreateExecute(r ApiUsersIgnoreCreateRequest) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersApiService.UsersIgnoreCreate")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/users/ignore/{model_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"model_id"+"}", _neturl.PathEscape(parameterToString(r.modelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.xAccountToken == nil {
+		return nil, reportError("xAccountToken is required and must be specified")
+	}
+	if r.ignoreCommonModelRequest == nil {
+		return nil, reportError("ignoreCommonModelRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json", "application/x-www-form-urlencoded", "multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Account-Token"] = parameterToString(*r.xAccountToken, "")
+	// body params
+	localVarPostBody = r.ignoreCommonModelRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["tokenAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiUsersListRequest struct {
 	ctx _context.Context
 	ApiService *UsersApiService
@@ -38,6 +166,7 @@ type ApiUsersListRequest struct {
 	cursor *string
 	includeDeletedData *bool
 	includeRemoteData *bool
+	includeRemoteFields *bool
 	modifiedAfter *time.Time
 	modifiedBefore *time.Time
 	pageSize *int32
@@ -66,6 +195,10 @@ func (r ApiUsersListRequest) IncludeDeletedData(includeDeletedData bool) ApiUser
 }
 func (r ApiUsersListRequest) IncludeRemoteData(includeRemoteData bool) ApiUsersListRequest {
 	r.includeRemoteData = &includeRemoteData
+	return r
+}
+func (r ApiUsersListRequest) IncludeRemoteFields(includeRemoteFields bool) ApiUsersListRequest {
+	r.includeRemoteFields = &includeRemoteFields
 	return r
 }
 func (r ApiUsersListRequest) ModifiedAfter(modifiedAfter time.Time) ApiUsersListRequest {
@@ -144,6 +277,9 @@ func (a *UsersApiService) UsersListExecute(r ApiUsersListRequest) (PaginatedUser
 	}
 	if r.includeRemoteData != nil {
 		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
+	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
 	}
 	if r.modifiedAfter != nil {
 		localVarQueryParams.Add("modified_after", parameterToString(*r.modifiedAfter, ""))
@@ -226,12 +362,178 @@ func (a *UsersApiService) UsersListExecute(r ApiUsersListRequest) (PaginatedUser
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiUsersRemoteFieldClassesListRequest struct {
+	ctx _context.Context
+	ApiService *UsersApiService
+	xAccountToken *string
+	cursor *string
+	includeDeletedData *bool
+	includeRemoteData *bool
+	includeRemoteFields *bool
+	pageSize *int32
+}
+
+func (r ApiUsersRemoteFieldClassesListRequest) XAccountToken(xAccountToken string) ApiUsersRemoteFieldClassesListRequest {
+	r.xAccountToken = &xAccountToken
+	return r
+}
+func (r ApiUsersRemoteFieldClassesListRequest) Cursor(cursor string) ApiUsersRemoteFieldClassesListRequest {
+	r.cursor = &cursor
+	return r
+}
+func (r ApiUsersRemoteFieldClassesListRequest) IncludeDeletedData(includeDeletedData bool) ApiUsersRemoteFieldClassesListRequest {
+	r.includeDeletedData = &includeDeletedData
+	return r
+}
+func (r ApiUsersRemoteFieldClassesListRequest) IncludeRemoteData(includeRemoteData bool) ApiUsersRemoteFieldClassesListRequest {
+	r.includeRemoteData = &includeRemoteData
+	return r
+}
+func (r ApiUsersRemoteFieldClassesListRequest) IncludeRemoteFields(includeRemoteFields bool) ApiUsersRemoteFieldClassesListRequest {
+	r.includeRemoteFields = &includeRemoteFields
+	return r
+}
+func (r ApiUsersRemoteFieldClassesListRequest) PageSize(pageSize int32) ApiUsersRemoteFieldClassesListRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+func (r ApiUsersRemoteFieldClassesListRequest) Execute() (PaginatedRemoteFieldClassList, *_nethttp.Response, error) {
+	return r.ApiService.UsersRemoteFieldClassesListExecute(r)
+}
+
+/*
+ * UsersRemoteFieldClassesList Method for UsersRemoteFieldClassesList
+ * Returns a list of `RemoteFieldClass` objects.
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @return ApiUsersRemoteFieldClassesListRequest
+ */
+func (a *UsersApiService) UsersRemoteFieldClassesList(ctx _context.Context) ApiUsersRemoteFieldClassesListRequest {
+	return ApiUsersRemoteFieldClassesListRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+/*
+ * Execute executes the request
+ * @return PaginatedRemoteFieldClassList
+ */
+func (a *UsersApiService) UsersRemoteFieldClassesListExecute(r ApiUsersRemoteFieldClassesListRequest) (PaginatedRemoteFieldClassList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  PaginatedRemoteFieldClassList
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UsersApiService.UsersRemoteFieldClassesList")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/users/remote-field-classes"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.xAccountToken == nil {
+		return localVarReturnValue, nil, reportError("xAccountToken is required and must be specified")
+	}
+
+	if r.cursor != nil {
+		localVarQueryParams.Add("cursor", parameterToString(*r.cursor, ""))
+	}
+	if r.includeDeletedData != nil {
+		localVarQueryParams.Add("include_deleted_data", parameterToString(*r.includeDeletedData, ""))
+	}
+	if r.includeRemoteData != nil {
+		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
+	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
+	}
+	if r.pageSize != nil {
+		localVarQueryParams.Add("page_size", parameterToString(*r.pageSize, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarHeaderParams["X-Account-Token"] = parameterToString(*r.xAccountToken, "")
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["tokenAuth"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["Authorization"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUsersRetrieveRequest struct {
 	ctx _context.Context
 	ApiService *UsersApiService
 	xAccountToken *string
 	id string
 	includeRemoteData *bool
+	includeRemoteFields *bool
 }
 
 func (r ApiUsersRetrieveRequest) XAccountToken(xAccountToken string) ApiUsersRetrieveRequest {
@@ -240,6 +542,10 @@ func (r ApiUsersRetrieveRequest) XAccountToken(xAccountToken string) ApiUsersRet
 }
 func (r ApiUsersRetrieveRequest) IncludeRemoteData(includeRemoteData bool) ApiUsersRetrieveRequest {
 	r.includeRemoteData = &includeRemoteData
+	return r
+}
+func (r ApiUsersRetrieveRequest) IncludeRemoteFields(includeRemoteFields bool) ApiUsersRetrieveRequest {
+	r.includeRemoteFields = &includeRemoteFields
 	return r
 }
 
@@ -293,6 +599,9 @@ func (a *UsersApiService) UsersRetrieveExecute(r ApiUsersRetrieveRequest) (User,
 
 	if r.includeRemoteData != nil {
 		localVarQueryParams.Add("include_remote_data", parameterToString(*r.includeRemoteData, ""))
+	}
+	if r.includeRemoteFields != nil {
+		localVarQueryParams.Add("include_remote_fields", parameterToString(*r.includeRemoteFields, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

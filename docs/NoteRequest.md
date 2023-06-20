@@ -4,16 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
-**Owner** | Pointer to **NullableString** |  | [optional] 
+**Owner** | Pointer to **NullableString** | The note&#39;s owner. | [optional] 
 **Content** | Pointer to **NullableString** | The note&#39;s content. | [optional] 
-**Contact** | Pointer to **NullableString** |  | [optional] 
-**Account** | Pointer to **NullableString** |  | [optional] 
-**Opportunity** | Pointer to **NullableString** |  | [optional] 
-**RemoteUpdatedAt** | Pointer to **NullableTime** | When the third party&#39;s lead was updated. | [optional] 
-**RemoteCreatedAt** | Pointer to **NullableTime** | When the third party&#39;s lead was created. | [optional] 
+**Contact** | Pointer to **NullableString** | The note&#39;s contact. | [optional] 
+**Account** | Pointer to **NullableString** | The note&#39;s account. | [optional] 
+**Opportunity** | Pointer to **NullableString** | The note&#39;s opportunity. | [optional] 
 **IntegrationParams** | Pointer to **map[string]interface{}** |  | [optional] 
 **LinkedAccountParams** | Pointer to **map[string]interface{}** |  | [optional] 
+**RemoteFields** | Pointer to [**[]RemoteFieldRequest**](RemoteFieldRequest.md) |  | [optional] 
 
 ## Methods
 
@@ -34,41 +32,6 @@ NewNoteRequestWithDefaults instantiates a new NoteRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetRemoteId
-
-`func (o *NoteRequest) GetRemoteId() string`
-
-GetRemoteId returns the RemoteId field if non-nil, zero value otherwise.
-
-### GetRemoteIdOk
-
-`func (o *NoteRequest) GetRemoteIdOk() (*string, bool)`
-
-GetRemoteIdOk returns a tuple with the RemoteId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteId
-
-`func (o *NoteRequest) SetRemoteId(v string)`
-
-SetRemoteId sets RemoteId field to given value.
-
-### HasRemoteId
-
-`func (o *NoteRequest) HasRemoteId() bool`
-
-HasRemoteId returns a boolean if a field has been set.
-
-### SetRemoteIdNil
-
-`func (o *NoteRequest) SetRemoteIdNil(b bool)`
-
- SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-
-### UnsetRemoteId
-`func (o *NoteRequest) UnsetRemoteId()`
-
-UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
 ### GetOwner
 
 `func (o *NoteRequest) GetOwner() string`
@@ -244,76 +207,6 @@ HasOpportunity returns a boolean if a field has been set.
 `func (o *NoteRequest) UnsetOpportunity()`
 
 UnsetOpportunity ensures that no value is present for Opportunity, not even an explicit nil
-### GetRemoteUpdatedAt
-
-`func (o *NoteRequest) GetRemoteUpdatedAt() time.Time`
-
-GetRemoteUpdatedAt returns the RemoteUpdatedAt field if non-nil, zero value otherwise.
-
-### GetRemoteUpdatedAtOk
-
-`func (o *NoteRequest) GetRemoteUpdatedAtOk() (*time.Time, bool)`
-
-GetRemoteUpdatedAtOk returns a tuple with the RemoteUpdatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteUpdatedAt
-
-`func (o *NoteRequest) SetRemoteUpdatedAt(v time.Time)`
-
-SetRemoteUpdatedAt sets RemoteUpdatedAt field to given value.
-
-### HasRemoteUpdatedAt
-
-`func (o *NoteRequest) HasRemoteUpdatedAt() bool`
-
-HasRemoteUpdatedAt returns a boolean if a field has been set.
-
-### SetRemoteUpdatedAtNil
-
-`func (o *NoteRequest) SetRemoteUpdatedAtNil(b bool)`
-
- SetRemoteUpdatedAtNil sets the value for RemoteUpdatedAt to be an explicit nil
-
-### UnsetRemoteUpdatedAt
-`func (o *NoteRequest) UnsetRemoteUpdatedAt()`
-
-UnsetRemoteUpdatedAt ensures that no value is present for RemoteUpdatedAt, not even an explicit nil
-### GetRemoteCreatedAt
-
-`func (o *NoteRequest) GetRemoteCreatedAt() time.Time`
-
-GetRemoteCreatedAt returns the RemoteCreatedAt field if non-nil, zero value otherwise.
-
-### GetRemoteCreatedAtOk
-
-`func (o *NoteRequest) GetRemoteCreatedAtOk() (*time.Time, bool)`
-
-GetRemoteCreatedAtOk returns a tuple with the RemoteCreatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteCreatedAt
-
-`func (o *NoteRequest) SetRemoteCreatedAt(v time.Time)`
-
-SetRemoteCreatedAt sets RemoteCreatedAt field to given value.
-
-### HasRemoteCreatedAt
-
-`func (o *NoteRequest) HasRemoteCreatedAt() bool`
-
-HasRemoteCreatedAt returns a boolean if a field has been set.
-
-### SetRemoteCreatedAtNil
-
-`func (o *NoteRequest) SetRemoteCreatedAtNil(b bool)`
-
- SetRemoteCreatedAtNil sets the value for RemoteCreatedAt to be an explicit nil
-
-### UnsetRemoteCreatedAt
-`func (o *NoteRequest) UnsetRemoteCreatedAt()`
-
-UnsetRemoteCreatedAt ensures that no value is present for RemoteCreatedAt, not even an explicit nil
 ### GetIntegrationParams
 
 `func (o *NoteRequest) GetIntegrationParams() map[string]interface{}`
@@ -384,6 +277,31 @@ HasLinkedAccountParams returns a boolean if a field has been set.
 `func (o *NoteRequest) UnsetLinkedAccountParams()`
 
 UnsetLinkedAccountParams ensures that no value is present for LinkedAccountParams, not even an explicit nil
+### GetRemoteFields
+
+`func (o *NoteRequest) GetRemoteFields() []RemoteFieldRequest`
+
+GetRemoteFields returns the RemoteFields field if non-nil, zero value otherwise.
+
+### GetRemoteFieldsOk
+
+`func (o *NoteRequest) GetRemoteFieldsOk() (*[]RemoteFieldRequest, bool)`
+
+GetRemoteFieldsOk returns a tuple with the RemoteFields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteFields
+
+`func (o *NoteRequest) SetRemoteFields(v []RemoteFieldRequest)`
+
+SetRemoteFields sets RemoteFields field to given value.
+
+### HasRemoteFields
+
+`func (o *NoteRequest) HasRemoteFields() bool`
+
+HasRemoteFields returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

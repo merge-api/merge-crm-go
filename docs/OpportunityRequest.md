@@ -4,19 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**RemoteId** | Pointer to **NullableString** | The third-party API ID of the matching object. | [optional] 
 **Name** | Pointer to **NullableString** | The opportunity&#39;s name. | [optional] 
 **Description** | Pointer to **NullableString** | The opportunity&#39;s description. | [optional] 
 **Amount** | Pointer to **NullableInt32** | The opportunity&#39;s amount. | [optional] 
-**Owner** | Pointer to **NullableString** |  | [optional] 
-**Account** | Pointer to **NullableString** |  | [optional] 
-**Stage** | Pointer to **NullableString** |  | [optional] 
-**Status** | Pointer to [**NullableOpportunityStatusEnum**](OpportunityStatusEnum.md) | The opportunity&#39;s status. | [optional] 
+**Owner** | Pointer to **NullableString** | The opportunity&#39;s owner. | [optional] 
+**Account** | Pointer to **NullableString** | The account of the opportunity. | [optional] 
+**Stage** | Pointer to **NullableString** | The stage of the opportunity. | [optional] 
+**Status** | Pointer to [**NullableOpportunityStatusEnum**](OpportunityStatusEnum.md) | The opportunity&#39;s status.  * &#x60;OPEN&#x60; - OPEN * &#x60;WON&#x60; - WON * &#x60;LOST&#x60; - LOST | [optional] 
 **LastActivityAt** | Pointer to **NullableTime** | When the opportunity&#39;s last activity occurred. | [optional] 
 **CloseDate** | Pointer to **NullableTime** | When the opportunity was closed. | [optional] 
-**RemoteCreatedAt** | Pointer to **NullableTime** | When the third party&#39;s opportunity was created. | [optional] 
 **IntegrationParams** | Pointer to **map[string]interface{}** |  | [optional] 
 **LinkedAccountParams** | Pointer to **map[string]interface{}** |  | [optional] 
+**RemoteFields** | Pointer to [**[]RemoteFieldRequest**](RemoteFieldRequest.md) |  | [optional] 
 
 ## Methods
 
@@ -37,41 +36,6 @@ NewOpportunityRequestWithDefaults instantiates a new OpportunityRequest object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetRemoteId
-
-`func (o *OpportunityRequest) GetRemoteId() string`
-
-GetRemoteId returns the RemoteId field if non-nil, zero value otherwise.
-
-### GetRemoteIdOk
-
-`func (o *OpportunityRequest) GetRemoteIdOk() (*string, bool)`
-
-GetRemoteIdOk returns a tuple with the RemoteId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteId
-
-`func (o *OpportunityRequest) SetRemoteId(v string)`
-
-SetRemoteId sets RemoteId field to given value.
-
-### HasRemoteId
-
-`func (o *OpportunityRequest) HasRemoteId() bool`
-
-HasRemoteId returns a boolean if a field has been set.
-
-### SetRemoteIdNil
-
-`func (o *OpportunityRequest) SetRemoteIdNil(b bool)`
-
- SetRemoteIdNil sets the value for RemoteId to be an explicit nil
-
-### UnsetRemoteId
-`func (o *OpportunityRequest) UnsetRemoteId()`
-
-UnsetRemoteId ensures that no value is present for RemoteId, not even an explicit nil
 ### GetName
 
 `func (o *OpportunityRequest) GetName() string`
@@ -387,41 +351,6 @@ HasCloseDate returns a boolean if a field has been set.
 `func (o *OpportunityRequest) UnsetCloseDate()`
 
 UnsetCloseDate ensures that no value is present for CloseDate, not even an explicit nil
-### GetRemoteCreatedAt
-
-`func (o *OpportunityRequest) GetRemoteCreatedAt() time.Time`
-
-GetRemoteCreatedAt returns the RemoteCreatedAt field if non-nil, zero value otherwise.
-
-### GetRemoteCreatedAtOk
-
-`func (o *OpportunityRequest) GetRemoteCreatedAtOk() (*time.Time, bool)`
-
-GetRemoteCreatedAtOk returns a tuple with the RemoteCreatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRemoteCreatedAt
-
-`func (o *OpportunityRequest) SetRemoteCreatedAt(v time.Time)`
-
-SetRemoteCreatedAt sets RemoteCreatedAt field to given value.
-
-### HasRemoteCreatedAt
-
-`func (o *OpportunityRequest) HasRemoteCreatedAt() bool`
-
-HasRemoteCreatedAt returns a boolean if a field has been set.
-
-### SetRemoteCreatedAtNil
-
-`func (o *OpportunityRequest) SetRemoteCreatedAtNil(b bool)`
-
- SetRemoteCreatedAtNil sets the value for RemoteCreatedAt to be an explicit nil
-
-### UnsetRemoteCreatedAt
-`func (o *OpportunityRequest) UnsetRemoteCreatedAt()`
-
-UnsetRemoteCreatedAt ensures that no value is present for RemoteCreatedAt, not even an explicit nil
 ### GetIntegrationParams
 
 `func (o *OpportunityRequest) GetIntegrationParams() map[string]interface{}`
@@ -492,6 +421,31 @@ HasLinkedAccountParams returns a boolean if a field has been set.
 `func (o *OpportunityRequest) UnsetLinkedAccountParams()`
 
 UnsetLinkedAccountParams ensures that no value is present for LinkedAccountParams, not even an explicit nil
+### GetRemoteFields
+
+`func (o *OpportunityRequest) GetRemoteFields() []RemoteFieldRequest`
+
+GetRemoteFields returns the RemoteFields field if non-nil, zero value otherwise.
+
+### GetRemoteFieldsOk
+
+`func (o *OpportunityRequest) GetRemoteFieldsOk() (*[]RemoteFieldRequest, bool)`
+
+GetRemoteFieldsOk returns a tuple with the RemoteFields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRemoteFields
+
+`func (o *OpportunityRequest) SetRemoteFields(v []RemoteFieldRequest)`
+
+SetRemoteFields sets RemoteFields field to given value.
+
+### HasRemoteFields
+
+`func (o *OpportunityRequest) HasRemoteFields() bool`
+
+HasRemoteFields returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
